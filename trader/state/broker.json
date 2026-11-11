@@ -9,6 +9,16 @@
       "qty": "9",
       "price": 393.08,
       "plain": "BUY 9 TSLA at 393.08"
+    },
+    {
+      "at": "2026-11-11T15:51:51-05:00",
+      "date": "2026-11-11",
+      "status": "filled",
+      "symbol": "TSLA",
+      "side": "sell",
+      "qty": "9",
+      "price": 389.51,
+      "plain": "SELL 9 TSLA at 389.51"
     }
   ]
 }

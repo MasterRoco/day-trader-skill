@@ -1,17 +1,4 @@
 {
-  "cash": 1462.28,
-  "positions": [
-    {
-      "ticker": "TSLA",
-      "shares": 9.0,
-      "lots": [
-        {
-          "id": "TSLA-1",
-          "date": "2026-11-11",
-          "shares": 9.0,
-          "cost": 3537.72
-        }
-      ]
-    }
-  ]
+  "cash": 4967.87,
+  "positions": []
 }
