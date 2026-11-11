@@ -1,16 +1,16 @@
 {
-  "as_of": "2026-11-11T15:46:07Z",
+  "as_of": "2026-11-11T16:30:19Z",
   "source": "yahoo",
   "note": "Delayed quotes for alerts and sizing checks. Your broker's price is the one that fills. detail.fetched is when each price was read.",
   "prices": {
-    "TSLA": 393.31
+    "TSLA": 393.175
   },
   "detail": {
     "TSLA": {
       "prev_close": 379.78,
-      "time": "2026-11-11T15:46:08Z",
+      "time": "2026-11-11T16:30:18Z",
       "source": "yahoo",
-      "fetched": "2026-11-11T15:46:07Z"
+      "fetched": "2026-11-11T16:30:19Z"
     }
   }
 }
