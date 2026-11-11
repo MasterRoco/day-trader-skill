@@ -1,37 +1,72 @@
 {
   "created_by": "trader-scanner",
-  "created_at": "2026-11-11T09:03:54Z",
-  "mode": "daily",
-  "as_of": "2026-11-10 close",
-  "universe": 12,
-  "scanned": 12,
+  "created_at": "2026-11-11T15:17:22Z",
+  "mode": "orb",
+  "as_of": "2026-11-11 10:17 ET",
+  "universe": 20,
+  "scanned": 20,
   "failed": 0,
+  "unconfirmed": 0,
   "source": "yahoo",
+  "or_minutes": 15,
+  "interval": "5m",
   "filters": {
     "min_price": 5.0,
-    "min_volume": 1000000
+    "min_volume": 0
   },
   "note": "A scan is a list of charts that match a rule, not a list of stocks to buy.",
   "hits": [
     {
-      "symbol": "NVDA",
+      "symbol": "AAPL",
       "setups": [
-        "oversold"
+        "orb"
       ],
-      "price": 168.89,
-      "close_date": "2026-11-10",
-      "rsi": 23.9,
-      "volume": 427096957
+      "price": 353.68,
+      "at": "9:50 AM",
+      "bar_start": "09:45",
+      "bar_index": 3,
+      "or_high": 353.43,
+      "or_low": 349.33,
+      "pct_over": 0.07
     },
     {
-      "symbol": "AMZN",
+      "symbol": "MU",
       "setups": [
-        "breakout_20d"
+        "orb"
       ],
-      "price": 270.87,
-      "close_date": "2026-11-10",
-      "rsi": 61.4,
-      "volume": 38874955
+      "price": 779.98,
+      "at": "9:55 AM",
+      "bar_start": "09:50",
+      "bar_index": 4,
+      "or_high": 779.49,
+      "or_low": 763.05,
+      "pct_over": 0.06
+    },
+    {
+      "symbol": "INTC",
+      "setups": [
+        "orb"
+      ],
+      "price": 62.48,
+      "at": "10:05 AM",
+      "bar_start": "10:00",
+      "bar_index": 6,
+      "or_high": 62.24,
+      "or_low": 60.96,
+      "pct_over": 0.39
+    },
+    {
+      "symbol": "TSLA",
+      "setups": [
+        "orb"
+      ],
+      "price": 393.08,
+      "at": "10:15 AM",
+      "bar_start": "10:10",
+      "bar_index": 8,
+      "or_high": 392.67,
+      "or_low": 386.35,
+      "pct_over": 0.1
     }
   ]
 }

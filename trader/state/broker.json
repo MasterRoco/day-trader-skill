@@ -1,0 +1,14 @@
+{
+  "orders": [
+    {
+      "at": "2026-11-11T10:18:07-05:00",
+      "date": "2026-11-11",
+      "status": "filled",
+      "symbol": "TSLA",
+      "side": "buy",
+      "qty": "9",
+      "price": 393.08,
+      "plain": "BUY 9 TSLA at 393.08"
+    }
+  ]
+}
