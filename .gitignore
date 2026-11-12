@@ -14,3 +14,4 @@ paper/open_positions.json
 paper/STOP
 trader/prices.json
 trader/state/alerts.json
+paper/.events_offset
