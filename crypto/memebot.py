@@ -26,8 +26,8 @@ CONFIG = dict(
     position_usd=50.0,      # per trade (5% of the sleeve)
     max_open=8,
     max_age_min=20,         # pool must be this fresh to count as "just migrated"
-    min_liq_usd=15000,
-    fdv_min=30000, fdv_max=2000000,
+    min_liq_usd=3000,
+    fdv_min=8000, fdv_max=2000000,
     min_buyers_5m=8,
     take_profit_x=3.0,      # +200%
     stop_loss=0.40,         # -40%
