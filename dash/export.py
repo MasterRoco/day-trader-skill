@@ -97,7 +97,8 @@ for s in ("migr", "curve"):
                        peak_x=round(p["high"] / p["entry"], 2) if p["entry"] else 0, fdv0=round(p.get("fdv0") or 0)))
     op.sort(key=lambda r: -r["x"])
     cl = [c for c in L["closed"] if c.get("strat", "migr") == s]
-    counts = {k: sum(1 for c in cl if c["reason"] == k) for k in ("TP", "SL", "TIME", "RUG")}
+    counts = {k: sum(1 for c in cl if c["reason"] == k) for k in ("TP", "SL", "TIME", "RUG", "DEAD")}
+    counts["RUG"] += counts.pop("DEAD")  # dead pools (liquidity gone, no trades) count with the rugs
     realized = round(sum(c["pnl"] for c in cl), 2)
     start_s = 1000.0
     invested = sum(p["cost"] for p in L["open"] if p.get("strat", "migr") == s)

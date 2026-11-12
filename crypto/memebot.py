@@ -197,7 +197,9 @@ def rug_signals(pos, a, now, ratio):
     liq = f(a.get("reserve_in_usd"))
     base = max(pos.get("liq0", 0), pos.get("liq_peak", 0))
     pos["liq_peak"] = max(pos.get("liq_peak", 0), liq)
-    if base > 0 and liq > 0 and liq <= base * (1 - RUG["liq_drop"]):
+    tx_all = (((a.get("transactions") or {}).get("m5") or {}).get("buys") or 0) + \
+             (((a.get("transactions") or {}).get("m5") or {}).get("sells") or 0)
+    if base > 0 and liq > 0 and liq <= base * (1 - RUG["liq_drop"]) and tx_all < 20:
         sig.append("liquidity -%.0f%%" % ((1 - liq / base) * 100))
     if pos["high"] > 0 and f(a.get("base_token_price_usd")) <= pos["high"] * (1 - RUG["price_dump"]):
         sig.append("price %.0f%% under peak" % ((1 - f(a.get("base_token_price_usd")) / pos["high"]) * 100))
@@ -305,6 +307,13 @@ def manage(L, now):
         pos["last"] = p
         ratio = p / pos["entry"] if pos["entry"] else 0
         reason = None
+        a_ = attrs.get(pos["addr"]) or {}
+        t5 = (a_.get("transactions") or {}).get("m5") or {}
+        liq_now = f(a_.get("reserve_in_usd"), -1)
+        if a_ and 0 <= liq_now < max(100.0, 0.02 * pos.get("liq0", 0)) and (t5.get("buys") or 0) + (t5.get("sells") or 0) == 0 \
+                and now - pos["t"] >= 300:
+            close_pos(L, pos, "DEAD", 0.0, now, note="(no liquidity, no trades)")
+            continue
         sig = rug_signals(pos, attrs.get(pos["addr"]), now, ratio)
         rug = bool(sig) and (any(x.startswith("liquidity") for x in sig) or len(sig) >= 2)
         if ratio >= COMMON["take_profit_x"]:
