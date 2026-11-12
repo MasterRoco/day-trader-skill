@@ -54,6 +54,7 @@ def main():
             json.dump(keep, open(REG, "w"), indent=1)
         except Exception as e:
             log("error %r" % (e,))
+        open(os.path.join(ROOT, "paper", "heartbeat"), "w").write(str(time.time()))
         time.sleep(60)
 
 if __name__ == "__main__":

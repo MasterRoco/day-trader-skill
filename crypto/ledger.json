@@ -1,776 +1,378 @@
 {
  "cash": {
-  "migr": 600.0,
+  "migr": 800.051628670897,
   "curve": 900.0
  },
  "open": [
   {
-   "addr": "CjdkgxH7wJrC1dsqR1vqpQUEiTzgiH5NBCAtWFJRLCw6",
-   "name": "FLC",
-   "entry": 0.0006046427619847627,
-   "qty": 82693.45660547249,
-   "t": 1794474832.2742665,
+   "strat": "migr",
+   "addr": "9c1yacujSXMZypdrihyhgTW7j54sDZTVVYGUvEbP1FGX",
+   "name": "GTMAX",
+   "entry": 3.3766712120991476e-05,
+   "qty": 1480748.253511982,
+   "t": 1794484080.9177835,
    "cost": 50.0,
-   "high": 0.0005870318077521967,
-   "strat": "migr"
-  },
-  {
-   "addr": "EHCiganUZGEDET1gvynvn4xyqhEioVBNVhMrbzQoUAHD",
-   "name": "MAXGTA",
-   "entry": 3.6729975535264e-05,
-   "qty": 1361285.9598012967,
-   "t": 1794474964.381802,
-   "cost": 50.0,
-   "high": 4.058445106880829e-05,
-   "strat": "migr"
-  },
-  {
-   "addr": "3u6FsJhoGaymuTuLfHMYWTYWkpfHo4KxZVjcWaFvJ9oG",
-   "name": "Ejaw",
-   "entry": 0.05385303188047854,
-   "qty": 928.4528327201714,
-   "t": 1794475025.3087127,
-   "cost": 50.0,
-   "high": 0.07613469247022071,
-   "strat": "migr"
-  },
-  {
-   "addr": "2Tgmt11fpRHPUT3Vgt6S1c5j4CbMmut4WDhrQfsH4brZ",
-   "name": "\u725b\u903c\u732b",
-   "entry": 1.7412660059650182e-05,
-   "qty": 2871473.9636974507,
-   "t": 1794475096.4645853,
-   "cost": 50.0,
-   "high": 2.3140554086108154e-05,
-   "strat": "migr"
-  },
-  {
-   "addr": "7uRVh6tYX8WBGt9JdNf3hLwDnrjyaG35pvqQJA4cEnCY",
-   "name": "Shiqi",
-   "entry": 0.0006130051400925794,
-   "qty": 81565.38457809461,
-   "t": 1794475096.4645853,
-   "cost": 50.0,
-   "high": 0.0005958122760839153,
-   "strat": "migr"
-  },
-  {
-   "addr": "2HEVAfLL6cEYhzy8ewNCRnc7JxvprqZ5CUNxQ9NYRSaF",
-   "name": "DCAT",
-   "entry": 3.414029894389593e-05,
-   "qty": 1464544.8794155824,
-   "t": 1794475096.4645853,
-   "cost": 50.0,
-   "high": 3.675580966619356e-05,
-   "strat": "migr"
+   "high": 3.372261092712569e-05,
+   "fdv0": 32783.21565,
+   "liq0": 14088.0445,
+   "liq_peak": 14088.0445,
+   "created_ts": 1794483870.9177835,
+   "last": 3.372261092712569e-05
   },
   {
    "strat": "migr",
-   "addr": "9N1LYSpsx4FyUMGKcyjZQctMfamMP7arBHWfc5rrMPKo",
-   "name": "\u732b\u4ed9\u4eba",
-   "entry": 2.0382128667520207e-05,
-   "qty": 2453129.4456833224,
-   "t": 1794475140.2155533,
+   "addr": "BqGevJWxSgkwyZXvGEjJ8ZfJzFNmbikkWsobVBZsTinq",
+   "name": "Max",
+   "entry": 3.785859055680344e-05,
+   "qty": 1320704.2117687783,
+   "t": 1794484080.9177835,
    "cost": 50.0,
-   "high": 2.451998542775232e-05,
-   "fdv0": 19788.47443
+   "high": 3.7780881368068807e-05,
+   "fdv0": 36755.91316,
+   "liq0": 14248.7709,
+   "liq_peak": 14248.7709,
+   "created_ts": 1794483786.9177835,
+   "last": 3.7780881368068807e-05
   },
   {
    "strat": "migr",
-   "addr": "CBXM9bZGjfV94AX9oMhCGaDjzsXsuQcX7KF2VwqKbHRb",
-   "name": "Flying Cat",
-   "entry": 1.9336568836824275e-05,
-   "qty": 2585774.1578630405,
-   "t": 1794475201.397214,
+   "addr": "H5WEQUKhWJSGB5WfiKwjLdMtxJGbQVZNSojHQfNRRCn5",
+   "name": "fomo",
+   "entry": 0.00011006791994604468,
+   "qty": 454264.9667996816,
+   "t": 1794484142.6969728,
    "cost": 50.0,
-   "high": 2.7305255348789206e-05,
-   "fdv0": 18220.15484
+   "high": 0.00011191153125001389,
+   "fdv0": 99838.6417997012,
+   "liq0": 22716.8725,
+   "liq_peak": 22716.8725,
+   "created_ts": 1794483926.6969728,
+   "last": 0.00011191153125001389
   },
   {
    "strat": "curve",
-   "addr": "dNgh4FaZx86mcgabCEbqGb2rjrk69LG3hbwNic9RHAC",
-   "name": "MERGE",
-   "entry": 1.6460633749762286e-05,
-   "qty": 3037550.1186715895,
-   "t": 1794475344.9531846,
+   "addr": "FZETB4Aau4UqLJ3iKHZrhwi1JGBkhx6MfRebos9gpEvc",
+   "name": "Stake",
+   "entry": 1.1001976708283963e-05,
+   "qty": 4544637.870606687,
+   "t": 1794484142.6969728,
    "cost": 50.0,
-   "high": 1.9266960008079902e-05,
-   "fdv0": 16339.75164
+   "high": 1.0681530784741712e-05,
+   "fdv0": 9049.084423,
+   "liq0": 5014.329,
+   "liq_peak": 5014.329,
+   "created_ts": 1794483824.6969728,
+   "last": 1.0681530784741712e-05
   },
   {
    "strat": "curve",
-   "addr": "4DSJ1y9T2dE3DTvTumwumYCBSjjWyjafVFNJFfW4fg6G",
-   "name": "pfpup",
-   "entry": 1.3178455700226877e-05,
-   "qty": 3794071.258223315,
-   "t": 1794475630.8896644,
+   "addr": "4UhMCZvLSAW6v2DYVU5Mp88cdTzyEhXQMsf2mraTW3AL",
+   "name": "JUMP",
+   "entry": 1.608634940708394e-05,
+   "qty": 3108225.411166409,
+   "t": 1794484142.6969728,
    "cost": 50.0,
-   "high": 1.2794617184686287e-05,
-   "fdv0": 12794.61718,
-   "liq0": 5615.8218,
-   "liq_peak": 5615.8218,
-   "created_ts": 1794475294.8896644
+   "high": 1.561781495833392e-05,
+   "fdv0": 31235.62992,
+   "liq0": 12090.1188,
+   "liq_peak": 12090.1188,
+   "created_ts": 1794483794.6969728,
+   "last": 1.561781495833392e-05
   }
  ],
- "closed": [],
- "seen": {
-  "CjdkgxH7wJrC1dsqR1vqpQUEiTzgiH5NBCAtWFJRLCw6": {
-   "name": "FLC",
-   "t": 1794474832.2742665,
-   "price0": 0.0005870318077521967,
-   "liq": 216560.5895,
-   "fdv": 589818.7078,
-   "buyers5": 106,
-   "age_min": 2.1,
-   "picked": true,
-   "strat": "migr"
-  },
-  "54kne72UPGiAZa5n33FALna3Sc7EDWy4wPA21LgjvPnP": {
-   "name": "JOE",
-   "t": 1794474903.4976773,
-   "price0": 1.3943633432973872e-08,
-   "liq": 36.1155,
-   "fdv": 28.69947604,
-   "buyers5": 22,
-   "age_min": 1.6,
-   "picked": false,
-   "skip": "liq 36 < 3000",
-   "max": 3.398764755709966e-09,
-   "strat": "migr"
-  },
-  "EHCiganUZGEDET1gvynvn4xyqhEioVBNVhMrbzQoUAHD": {
-   "name": "MAXGTA",
-   "t": 1794474964.381802,
-   "price0": 3.5660170422586403e-05,
-   "liq": 14100.0014,
-   "fdv": 35652.12501,
-   "buyers5": 38,
-   "age_min": 1.8,
-   "picked": true,
-   "strat": "migr"
-  },
-  "3u6FsJhoGaymuTuLfHMYWTYWkpfHo4KxZVjcWaFvJ9oG": {
-   "name": "Ejaw",
-   "t": 1794475025.3087127,
-   "price0": 0.052284496971338384,
-   "liq": 97014.7667,
-   "fdv": 51719.23975,
-   "buyers5": 42,
-   "age_min": 1.2,
-   "picked": true,
-   "strat": "migr"
-  },
-  "2Tgmt11fpRHPUT3Vgt6S1c5j4CbMmut4WDhrQfsH4brZ": {
-   "name": "\u725b\u903c\u732b",
-   "t": 1794475096.4645853,
-   "price0": 1.6905495203543866e-05,
-   "liq": 33376.7064,
-   "fdv": 16905.4952,
-   "buyers5": 38,
-   "age_min": 1.3,
-   "picked": true,
-   "strat": "migr"
-  },
-  "7uRVh6tYX8WBGt9JdNf3hLwDnrjyaG35pvqQJA4cEnCY": {
-   "name": "Shiqi",
-   "t": 1794475096.4645853,
-   "price0": 0.0005951506214491062,
-   "liq": 217411.754,
-   "fdv": 591686.8834,
-   "buyers5": 34,
-   "age_min": 1.4,
-   "picked": true,
-   "strat": "migr"
-  },
-  "kYLkmQSJkyKvZmg5WxL2LvCR2eSLCUioMUeWRkJbYgt": {
-   "name": "FLC",
-   "t": 1794475096.4645853,
-   "price0": 8.507420898458388e-06,
-   "liq": 15045.5211,
-   "fdv": 8507.420898,
-   "buyers5": 77,
-   "age_min": 1.6,
-   "picked": false,
-   "skip": "clone name",
-   "max": 1.7775180094075586e-05,
-   "strat": "migr"
-  },
-  "8iZjguyRorAcZHMGDDPScXXGhtJp3dEgWwiJYXQ7N7rk": {
-   "name": "\u725b\u903c\u732b",
-   "t": 1794475096.4645853,
-   "price0": 1.2934125566135845e-05,
-   "liq": 0.0004214445881,
-   "fdv": 12934.12557,
-   "buyers5": 112,
-   "age_min": 2.3,
-   "picked": false,
-   "skip": "liq 0 < 3000",
-   "max": 1.2934125566135845e-05,
-   "strat": "migr"
-  },
-  "2HEVAfLL6cEYhzy8ewNCRnc7JxvprqZ5CUNxQ9NYRSaF": {
-   "name": "DCAT",
-   "t": 1794475096.4645853,
-   "price0": 3.314592130475333e-05,
-   "liq": 14187.2384,
-   "fdv": 33115.94413,
-   "buyers5": 160,
-   "age_min": 2.4,
-   "picked": true,
-   "strat": "migr"
-  },
-  "9N1LYSpsx4FyUMGKcyjZQctMfamMP7arBHWfc5rrMPKo": {
+ "closed": [
+  {
    "strat": "migr",
-   "name": "\u732b\u4ed9\u4eba",
-   "t": 1794475140.2155533,
-   "price0": 1.9788474434485636e-05,
-   "liq": 36369.8953,
-   "fdv": 19788.47443,
-   "buyers5": 158,
+   "name": "\u54c8\u57fa\u4ed9\u4eba",
+   "reason": "SL",
+   "pnl": -49.95,
+   "pct": -99.9,
+   "held_min": 1,
+   "peak_x": 0.97,
+   "fdv0": 24375.6985
+  }
+ ],
+ "seen": {
+  "EDbiXUVGnyNHDdq3n96vV1yWJ3PEs7oTYurHMPmWeJuG": {
+   "strat": "migr",
+   "name": "Melmail",
+   "t": 1794484080.9177835,
+   "price0": 0.011904999100424337,
+   "liq": 94899.4809,
+   "fdv": 47619.9964,
+   "buyers5": 6,
+   "age_min": 2.9,
+   "picked": false,
+   "skip": "buyers 6",
+   "max": 0.014599850823719372
+  },
+  "9c1yacujSXMZypdrihyhgTW7j54sDZTVVYGUvEbP1FGX": {
+   "strat": "migr",
+   "name": "GTMAX",
+   "t": 1794484080.9177835,
+   "price0": 3.2783215651448035e-05,
+   "liq": 14088.0445,
+   "fdv": 32783.21565,
+   "buyers5": 74,
    "age_min": 3.5,
    "picked": true
   },
-  "3eHn8Gcjq8Do1KNqRJmA3HKL26TjFZz1JBNGLgJgWWws": {
+  "BqGevJWxSgkwyZXvGEjJ8ZfJzFNmbikkWsobVBZsTinq": {
    "strat": "migr",
    "name": "Max",
-   "t": 1794475201.397214,
-   "price0": 3.606091551773742e-05,
-   "liq": 7041.08679387323,
-   "fdv": 35909.25635,
-   "buyers5": 2,
-   "age_min": 2.7,
-   "picked": false,
-   "skip": "buyers 2",
-   "max": 3.952175476701649e-05
-  },
-  "EAnd9CFW7Btj3rFmLF3imnaQkS5TyVEGfoN3aiqABrst": {
-   "strat": "migr",
-   "name": "57651",
-   "t": 1794475201.397214,
-   "price0": 175.43851666130587,
-   "liq": 1.03493109798679,
-   "fdv": 10114205.9240406,
-   "buyers5": 1,
-   "age_min": 2.2,
-   "picked": false,
-   "skip": "liq 1",
-   "max": 175.43851666130587
-  },
-  "FM8W8KJhJeteDwudbCJj8AUDFkSzLTQ6H2oAWQPGQ2Go": {
-   "strat": "migr",
-   "name": "FLC",
-   "t": 1794475201.397214,
-   "price0": 7.140058502046029e-05,
-   "liq": 28092.0271,
-   "fdv": 71230.2559899017,
-   "buyers5": 87,
-   "age_min": 2.4,
-   "picked": false,
-   "skip": "clone name",
-   "max": 7.415550322615405e-05
-  },
-  "CBXM9bZGjfV94AX9oMhCGaDjzsXsuQcX7KF2VwqKbHRb": {
-   "strat": "migr",
-   "name": "Flying Cat",
-   "t": 1794475201.397214,
-   "price0": 1.8773367802742013e-05,
-   "liq": 33471.9099,
-   "fdv": 18220.15484,
-   "buyers5": 77,
-   "age_min": 2.4,
+   "t": 1794484080.9177835,
+   "price0": 3.6755913161945083e-05,
+   "liq": 14248.7709,
+   "fdv": 36755.91316,
+   "buyers5": 102,
+   "age_min": 4.9,
    "picked": true
   },
-  "B2K3XijUSKQ3HcGA7qoXa6VZ5gG4dhonCKYdCF4shHrA": {
+  "5VLPd8Qcuynr7CmXXmj4XoAdpGtHyJYr9Vg2n62Awd6x": {
+   "strat": "migr",
+   "name": "\u54c8\u57fa\u4ed9\u4eba",
+   "t": 1794484080.9177835,
+   "price0": 2.4375698504769883e-05,
+   "liq": 38804.4356,
+   "fdv": 24375.6985,
+   "buyers5": 217,
+   "age_min": 5.1,
+   "picked": true
+  },
+  "DozE11KVmT6sRtjNR7tAsHTsgdobJFyg1Me9Y86AvFQx": {
    "strat": "migr",
    "name": "Max",
-   "t": 1794475272.954206,
-   "price0": 3.670976265968742e-05,
-   "liq": 14240.1686,
-   "fdv": 36632.5509977097,
-   "buyers5": 99,
-   "age_min": 2.9,
-   "picked": false,
-   "skip": "max open",
-   "max": 3.902119121011577e-05
-  },
-  "46BAjKuLVeG5YuENB17qPuq2YtPB6sLQjr7q4qJQh3WN": {
-   "strat": "curve",
-   "name": "$UTURN",
-   "t": 1794475272.954206,
-   "price0": 1.6965135001912147e-05,
-   "liq": 10818.5887,
-   "fdv": 33930.27,
-   "buyers5": 4,
-   "age_min": 5.3,
-   "picked": false,
-   "skip": "buyers 4",
-   "max": 1.6965135001912147e-05
-  },
-  "HND53vqnk1n7zt3TZh5Ve31Sv3Q6XPAWK8ArUTTmpr3y": {
-   "strat": "curve",
-   "name": "ASTRA6.2",
-   "t": 1794475272.954206,
-   "price0": 1.0595195428536681e-05,
-   "liq": 5183.7755,
-   "fdv": 10601.33709,
-   "buyers5": 8,
-   "age_min": 5.3,
-   "picked": false,
-   "skip": "buyers 8",
-   "max": 1.060546199605579e-05
-  },
-  "DYxSafhaJRjbT51YWAoBEWeo4LPa5hro5A5PbRnHemHJ": {
-   "strat": "curve",
-   "name": "att",
-   "t": 1794475272.954206,
-   "price0": 4.875229971015944e-06,
-   "liq": 3646.4268,
-   "fdv": 9750.459942,
-   "buyers5": 2,
-   "age_min": 5.6,
-   "picked": false,
-   "skip": "buyers 2",
-   "max": 4.875229971015944e-06
-  },
-  "dNgh4FaZx86mcgabCEbqGb2rjrk69LG3hbwNic9RHAC": {
-   "strat": "curve",
-   "name": "MERGE",
-   "t": 1794475344.9531846,
-   "price0": 1.598119781530319e-05,
-   "liq": 6056.0234,
-   "fdv": 16339.75164,
-   "buyers5": 137,
-   "age_min": 5.4,
-   "picked": true
-  },
-  "2n8AAGHeKpdGW8QKSqyGx5fZMWQK7Er3t6EDW3zmSwhM": {
-   "strat": "curve",
-   "name": "fly",
-   "t": 1794475344.9531846,
-   "price0": 5.363074676885657e-06,
-   "liq": 4192.2475,
-   "fdv": 10726.149354,
-   "buyers5": 3,
-   "age_min": 6.2,
-   "picked": false,
-   "skip": "buyers 3",
-   "max": 5.363074676885657e-06
-  },
-  "EHxhy7Dv3d8T8aoo9g8Yq48b4E8iWC2WMaEnSgUZqNRR": {
-   "strat": "curve",
-   "name": "HANS",
-   "t": 1794475344.9531846,
-   "price0": 4.0611518696883896e-06,
-   "liq": 2374.6008,
-   "fdv": 8689.277318,
-   "buyers5": 3,
-   "age_min": 6.2,
-   "picked": false,
-   "skip": "buyers 3",
-   "max": 4.0611518696883896e-06
-  },
-  "Dp4bnfJLdmSN11FfymjzBt3KhKFNwMN7c2PmxUdJkRAV": {
-   "strat": "migr",
-   "name": "FLC",
-   "t": 1794475406.7179039,
-   "price0": 3.172063382965941e-06,
-   "liq": 108021.2159,
-   "fdv": 317206.3383,
-   "buyers5": 71,
-   "age_min": 1.7,
+   "t": 1794484142.6969728,
+   "price0": 3.5702081049225435e-05,
+   "liq": 14097.3800965253,
+   "fdv": 35637.61183,
+   "buyers5": 15,
+   "age_min": 3.3,
    "picked": false,
    "skip": "clone name",
-   "max": 3.384125729594808e-06
+   "max": 3.619785701063558e-05
   },
-  "7oeqe6oiMciwGhAAUB29frWYGrPxoDiTpJ2mH7zUWPLm": {
-   "strat": "curve",
-   "name": "$MFRG",
-   "t": 1794475406.7179039,
-   "price0": 5.579965679775123e-06,
-   "liq": 4415.251,
-   "fdv": 11159.93136,
-   "buyers5": 3,
-   "age_min": 5.7,
+  "H8eQhBvnAg3duYRUCX5fUuW5oeBTTwoJaumfh3Ajq9sL": {
+   "strat": "migr",
+   "name": "\u54c8\u57fa\u4ed9\u4eba",
+   "t": 1794484142.6969728,
+   "price0": 1.99890608777817e-05,
+   "liq": 0.0,
+   "fdv": 20024.2098,
+   "buyers5": 13,
+   "age_min": 3.2,
    "picked": false,
-   "skip": "buyers 3",
-   "max": 5.579965679775123e-06
+   "skip": "liq 0",
+   "max": 2.2398233937822094e-05
   },
-  "jStsrazBbVUycbcCQNseFrDTkfyfaTgpeBNsdsKtPK1": {
-   "strat": "curve",
-   "name": "dogbaton",
-   "t": 1794475406.7179039,
-   "price0": 6.486922509508698e-06,
-   "liq": 1509.7189,
-   "fdv": 12973.84502,
-   "buyers5": 7,
-   "age_min": 6.0,
+  "7DuWd8zXGyqv9JSTGkjn88R5VzrT16rCjUcQKhwGsrMf": {
+   "strat": "migr",
+   "name": "STAKE",
+   "t": 1794484142.6969728,
+   "price0": 5.172171184929469e-05,
+   "liq": 16726.8903339988,
+   "fdv": 40197.9956614141,
+   "buyers5": 0,
+   "age_min": 3.3,
    "picked": false,
-   "skip": "buyers 7",
-   "max": 6.486922509508698e-06
+   "skip": "buyers 0",
+   "max": 7.317225198228489e-05
   },
-  "7tnhn9hhFEtU8C4hFxy4sKsr1arKEETGTV4WNFevS3dF": {
+  "H5WEQUKhWJSGB5WfiKwjLdMtxJGbQVZNSojHQfNRRCn5": {
+   "strat": "migr",
+   "name": "fomo",
+   "t": 1794484142.6969728,
+   "price0": 0.00010686205820004337,
+   "liq": 22716.8725,
+   "fdv": 99838.6417997012,
+   "buyers5": 31,
+   "age_min": 3.6,
+   "picked": true
+  },
+  "FZETB4Aau4UqLJ3iKHZrhwi1JGBkhx6MfRebos9gpEvc": {
    "strat": "curve",
-   "name": "GrenCAT",
-   "t": 1794475406.7179039,
-   "price0": 5.601421950384361e-06,
-   "liq": 3380.6432,
-   "fdv": 11202.8439,
-   "buyers5": 5,
+   "name": "Stake",
+   "t": 1794484142.6969728,
+   "price0": 1.0681530784741712e-05,
+   "liq": 5014.329,
+   "fdv": 9049.084423,
+   "buyers5": 91,
    "age_min": 5.3,
-   "picked": false,
-   "skip": "buyers 5",
-   "max": 5.601421950384361e-06
+   "picked": true
   },
-  "HSNL9fkTekEZ1uwEnksk14sNg7DkZ5AuFhGQDBZe5Nmd": {
-   "strat": "migr",
-   "name": "57651",
-   "t": 1794475540.424945,
-   "price0": 185.15538757076737,
-   "liq": 1.3913,
-   "fdv": 10674393.2488442,
-   "buyers5": 1,
-   "age_min": 0.8,
-   "picked": false,
-   "skip": "liq 1",
-   "max": 185.15538757076737
-  },
-  "7XJQwqUWopEVvrepmqFC9mhJcyeFvnessswihqU3SLNv": {
-   "strat": "migr",
-   "name": "Goku",
-   "t": 1794475540.424945,
-   "price0": 2.843919676045686e-05,
-   "liq": 11302.0095,
-   "fdv": 28382.36791,
-   "buyers5": 50,
-   "age_min": 1.1,
-   "picked": false,
-   "skip": "max open",
-   "max": 2.843919676045686e-05
-  },
-  "5XQ2PjAoHc2MLoWGATDuobj5hCLDAyxGFA9Yv3UtQJ4D": {
-   "strat": "migr",
-   "name": "PAID",
-   "t": 1794475540.424945,
-   "price0": 9.631379755876266e-05,
-   "liq": 22303.4926,
-   "fdv": 97660.60551,
-   "buyers5": 100,
-   "age_min": 1.2,
-   "picked": false,
-   "skip": "max open",
-   "max": 9.631379755876266e-05
-  },
-  "7YoLMte3Qvgo17NxSh2eLVEJCWXVZftKBvX7RFyxKSJ6": {
+  "4UhMCZvLSAW6v2DYVU5Mp88cdTzyEhXQMsf2mraTW3AL": {
    "strat": "curve",
-   "name": "att",
-   "t": 1794475540.424945,
-   "price0": 6.653822091876645e-06,
-   "liq": 5246.1277,
-   "fdv": 13307.644184,
-   "buyers5": 3,
-   "age_min": 6.0,
-   "picked": false,
-   "skip": "buyers 3",
-   "max": 6.653822091876645e-06
-  },
-  "Bzq6mwx13KZb3wEeKUsM3aT3W8Pw4tzkQZVekYS6n9rs": {
-   "strat": "curve",
-   "name": "bullkitty",
-   "t": 1794475540.424945,
-   "price0": 6.3219438733268546e-06,
-   "liq": 4952.8374,
-   "fdv": 12643.887746,
-   "buyers5": 2,
+   "name": "JUMP",
+   "t": 1794484142.6969728,
+   "price0": 1.561781495833392e-05,
+   "liq": 12090.1188,
+   "fdv": 31235.62992,
+   "buyers5": 12,
    "age_min": 5.8,
-   "picked": false,
-   "skip": "buyers 2",
-   "max": 6.3219438733268546e-06
-  },
-  "HY8gnjzXdQRZT283xtUsJc789Qhfp33bTi5FHPUzTmUb": {
-   "strat": "curve",
-   "name": "MERS",
-   "t": 1794475540.424945,
-   "price0": 5.9577739413303405e-06,
-   "liq": 4708.1939,
-   "fdv": 11915.547882,
-   "buyers5": 4,
-   "age_min": 5.8,
-   "picked": false,
-   "skip": "buyers 4",
-   "max": 5.9577739413303405e-06
-  },
-  "2tLUJ5AV6rmcSwp36REUrE4Y2JdrxxRpFSpbfBZAHQLR": {
-   "strat": "curve",
-   "name": "kittylick",
-   "t": 1794475540.424945,
-   "price0": 9.683722192356656e-06,
-   "liq": 7404.2833,
-   "fdv": 19367.444384,
-   "buyers5": 8,
-   "age_min": 5.4,
-   "picked": false,
-   "skip": "buyers 8",
-   "max": 9.683722192356656e-06
-  },
-  "EVz6sbefJ14WMFv1L62Pwm6mMJiJMGxNWTo9io66eNf6": {
-   "strat": "migr",
-   "name": "Green cat",
-   "t": 1794475630.8896644,
-   "price0": 1.870966523726989e-05,
-   "liq": 36476.3193,
-   "fdv": 18709.6652587097,
-   "buyers5": 88,
-   "age_min": 3.0,
-   "picked": false,
-   "skip": "max open",
-   "max": 1.870966523726989e-05
-  },
-  "HuGXrmjWZ6uAaXkh7ToDEbTxFd23SaJsUWuXCeQzevsH": {
-   "strat": "curve",
-   "name": "$BISHNOI",
-   "t": 1794475630.8896644,
-   "price0": 8.751336393233329e-06,
-   "liq": 6856.3437,
-   "fdv": 17502.672786,
-   "buyers5": 3,
-   "age_min": 5.2,
-   "picked": false,
-   "skip": "buyers 3",
-   "max": 8.751336393233329e-06
-  },
-  "3VkXHSR5ezh6U5ytx5RH4mMSJ6hcB2abiz6a9xwPDKft": {
-   "strat": "curve",
-   "name": "GETPAID",
-   "t": 1794475630.8896644,
-   "price0": 6.066096357250004e-06,
-   "liq": 4331.5246,
-   "fdv": 12132.192714,
-   "buyers5": 5,
-   "age_min": 5.5,
-   "picked": false,
-   "skip": "buyers 5",
-   "max": 6.066096357250004e-06
-  },
-  "4DSJ1y9T2dE3DTvTumwumYCBSjjWyjafVFNJFfW4fg6G": {
-   "strat": "curve",
-   "name": "pfpup",
-   "t": 1794475630.8896644,
-   "price0": 1.2794617184686287e-05,
-   "liq": 5615.8218,
-   "fdv": 12794.61718,
-   "buyers5": 261,
-   "age_min": 5.6,
    "picked": true
   }
  },
  "names": {
-  "FLC": 1794474832.2742665,
-  "MAXGTA": 1794474964.381802,
-  "Ejaw": 1794475025.3087127,
-  "\u725b\u903c\u732b": 1794475096.4645853,
-  "Shiqi": 1794475096.4645853,
-  "DCAT": 1794475096.4645853,
-  "\u732b\u4ed9\u4eba": 1794475140.2155533,
-  "Flying Cat": 1794475201.397214,
-  "MERGE": 1794475344.9531846,
-  "pfpup": 1794475630.8896644
+  "GTMAX": 1794484080.9177835,
+  "Max": 1794484080.9177835,
+  "\u54c8\u57fa\u4ed9\u4eba": 1794484080.9177835,
+  "fomo": 1794484142.6969728,
+  "Stake": 1794484142.6969728,
+  "JUMP": 1794484142.6969728
  },
  "pending": {
-  "F5Nf6jQF1M1BhubfKbRPeWJirBUBLjDSwChhmzyZUzFJ": {
-   "t": 1794475406.7179039,
-   "created": "2026-11-12T09:22:40Z"
+  "5mPEhq8TfVxZGbCgiGcUJh9Gis7DY5SL1RuvbvRSCy4i": {
+   "t": 1794484080.9177835,
+   "created": "2026-11-12T11:45:06Z"
   },
-  "9aJGNEpumkkJ7JyQDNwBvHmWXwEQYoHKHZ4Kofbf4wos": {
-   "t": 1794475406.7179039,
-   "created": "2026-11-12T09:22:35Z"
+  "F5igtX442yQ939cykmwqqje4rCRLutiPb7gy8StkEAYt": {
+   "t": 1794484080.9177835,
+   "created": "2026-11-12T11:45:04Z"
   },
-  "9xagnYmRbrQEov2sKrQzox76w5Bq1Fj1w9NkQwtBFuam": {
-   "t": 1794475406.7179039,
-   "created": "2026-11-12T09:22:24Z"
+  "Eni5taxChTVCGp3UxiiF8JzXsn9gQSjLbxHi86nd2tNL": {
+   "t": 1794484080.9177835,
+   "created": "2026-11-12T11:45:01Z"
   },
-  "GxXjwu36WTCqsmkervj3gYvmxSNb7BhDdskEuwxRHJKp": {
-   "t": 1794475406.7179039,
-   "created": "2026-11-12T09:22:23Z"
+  "51qcexGbv6efAA4FzitpL1fwnQ3S9xuw4EY2EHRwXH35": {
+   "t": 1794484080.9177835,
+   "created": "2026-11-12T11:45:00Z"
   },
-  "32Fno9rTjKZTPzhu31hXX1ufhyDcLkv3xUvLy442HVCt": {
-   "t": 1794475406.7179039,
-   "created": "2026-11-12T09:22:20Z"
+  "Cn5QbcnHvZTqir4QkUXr3Vuta7Uu67Qedqc6SwtNtSK7": {
+   "t": 1794484080.9177835,
+   "created": "2026-11-12T11:45:00Z"
   },
-  "2pPfw8NGKuz9RgUVofpKoFTFhaaLNvif5bHEHYZCaKFv": {
-   "t": 1794475406.7179039,
-   "created": "2026-11-12T09:22:19Z"
+  "6zkzMLMBrm9wZxGdNABoxTE76quNvuWNcZsZ1bm44EQs": {
+   "t": 1794484080.9177835,
+   "created": "2026-11-12T11:45:00Z"
   },
-  "GnT4ymc7Tj16U52Ts6fdjnf8U7mVFT9R4SpbgcGE7PzL": {
-   "t": 1794475479.0135133,
-   "created": "2026-11-12T09:23:17Z"
+  "Ci2Wv5mJVzDw1RvRdHtRAUPZ54sjXySi63pLXze1uguU": {
+   "t": 1794484080.9177835,
+   "created": "2026-11-12T11:44:57Z"
   },
-  "Ae4PrcavANT96hFsWrT4NofLmno5Sk46YvuzvgVxmMHy": {
-   "t": 1794475479.0135133,
-   "created": "2026-11-12T09:23:16Z"
+  "Bh9THHuVknmrfT7LajVpNGWEUg53b6NSMcZzuPaG6Qfq": {
+   "t": 1794484080.9177835,
+   "created": "2026-11-12T11:44:55Z"
   },
-  "CQSPfVXnwH3mtJQ6U3p4F1a17Reh943zbnnf9ACDZ3ey": {
-   "t": 1794475479.0135133,
-   "created": "2026-11-12T09:23:16Z"
+  "HuS5txMod4zL64cjzHWexuffNHFY1M8MNDcUYMeyS4As": {
+   "t": 1794484080.9177835,
+   "created": "2026-11-12T11:44:54Z"
   },
-  "Bqh64ZBhjEqmyFkJRnDxWbbo3qdmYSi1eeUXZxFuXJki": {
-   "t": 1794475479.0135133,
-   "created": "2026-11-12T09:23:15Z"
+  "G7s2hWZbKR1X8uA2XpH8FhjcFsqNeNQtVtAwur55Q85T": {
+   "t": 1794484080.9177835,
+   "created": "2026-11-12T11:44:49Z"
   },
-  "698M3FxzKGWEXdaZLXZeHdxiXFSSssqs5ULiKiTU9KAL": {
-   "t": 1794475479.0135133,
-   "created": "2026-11-12T09:23:03Z"
+  "HwAY3Z6VjnBfJDFtJ7ihxTGFRdU7gKGdTJcgH5wMYrpo": {
+   "t": 1794484080.9177835,
+   "created": "2026-11-12T11:44:45Z"
   },
-  "GdPR9WbrcMJpwVLWczXg9fSofur8j69UGN8S1St1ymKL": {
-   "t": 1794475479.0135133,
-   "created": "2026-11-12T09:23:02Z"
+  "DArHde1R79kPLfL39NfYzwwjq7a8ft64Q5FJ8GHieup": {
+   "t": 1794484080.9177835,
+   "created": "2026-11-12T11:44:36Z"
   },
-  "6kS16vacnpAWvkWqWMh8qMbErUgiVDNDpEAY1xvKmLRo": {
-   "t": 1794475479.0135133,
-   "created": "2026-11-12T09:23:01Z"
+  "FmcT4cnZXXMS6iLowTUvfzV9KeYu7R91YiJhSo8ewmup": {
+   "t": 1794484080.9177835,
+   "created": "2026-11-12T11:44:30Z"
   },
-  "7P7iHP2HCtmkyhPewdcG9zfMfbppwgWiMwNnKdP3S3MH": {
-   "t": 1794475479.0135133,
-   "created": "2026-11-12T09:23:00Z"
+  "FBHGLpp9bXvZ6Nv3Sqja97nJDyBAKUHraVqxMgcfad3d": {
+   "t": 1794484080.9177835,
+   "created": "2026-11-12T11:44:26Z"
   },
-  "Ho91wcRWK586aV8nA5cQQtVPXikmjfPCs2r1gD67sUzc": {
-   "t": 1794475479.0135133,
-   "created": "2026-11-12T09:22:58Z"
+  "Dr5cCUkMJNUyZQS6o46kyRJTZyNdUMo3gkaTojdHhvEv": {
+   "t": 1794484080.9177835,
+   "created": "2026-11-12T11:44:26Z"
   },
-  "BpBmG9jaHLTe3uUR1te72zvqAwP2mvQp2KGxkAeVhPVj": {
-   "t": 1794475479.0135133,
-   "created": "2026-11-12T09:22:54Z"
+  "9AT3myHvPM5YzTsYizTmF2t3HhFnrcK42bK3FZnC6KLc": {
+   "t": 1794484080.9177835,
+   "created": "2026-11-12T11:44:24Z"
   },
-  "2VWoXdA2DSqpYdftWB4h55J2yfywSMtx87iXm6R13L7t": {
-   "t": 1794475540.424945,
-   "created": "2026-11-12T09:24:58Z"
+  "DVw9hsLJA64AXzKUc2ymNzQvFTW7ayWGgkwpYQv2T7JK": {
+   "t": 1794484080.9177835,
+   "created": "2026-11-12T11:44:20Z"
   },
-  "C862dNoLJKMAJJ3VaYZW12BA8fxgGLDAomynf8Sntciy": {
-   "t": 1794475540.424945,
-   "created": "2026-11-12T09:24:53Z"
+  "7PQTdDm6UqhCMdVVnSx9y9NfYKGyYHhUpKQg5Z71PmX6": {
+   "t": 1794484080.9177835,
+   "created": "2026-11-12T11:44:17Z"
   },
-  "9tDCbwg1XqKSNAawmdbWobpXgaCimAgdZ4dGKQyMKjne": {
-   "t": 1794475540.424945,
-   "created": "2026-11-12T09:24:48Z"
+  "6KVNX4M4W4cp2eNb94SddmeWvesNrRQseCcRoNJCP5oU": {
+   "t": 1794484080.9177835,
+   "created": "2026-11-12T11:44:15Z"
   },
-  "GC5E3BUqARzuHSVoBX4sgqRqXmZga1dgzu7Ye9H8p2Fe": {
-   "t": 1794475540.424945,
-   "created": "2026-11-12T09:24:48Z"
+  "2ZRZAbWkifwqZndsCXNFrEwXW67z29swKaFN9gD9driu": {
+   "t": 1794484080.9177835,
+   "created": "2026-11-12T11:44:14Z"
   },
-  "Hm7qJphP37LGQvbaN8P98fi9tZ4Fmi4VBiQSgLZW93S9": {
-   "t": 1794475540.424945,
-   "created": "2026-11-12T09:24:45Z"
+  "H7XaRQ8Ej4b2dYpzxD8AnSieHjLuXk4yqr3bLguXKmdQ": {
+   "t": 1794484080.9177835,
+   "created": "2026-11-12T11:44:08Z"
   },
-  "Bw97V1jgLnxW5JZ5RBs5tkneBfJYpdsoXEFDoiRg3KKE": {
-   "t": 1794475540.424945,
-   "created": "2026-11-12T09:24:39Z"
+  "CB9uyo5j7rQcUBipVd83Q67Avia3LCDfPfvCSMoX2tXC": {
+   "t": 1794484080.9177835,
+   "created": "2026-11-12T11:44:04Z"
   },
-  "39kLWxMcvYmQqZM5NXXusLy3Y95bm7fPkb5uLK2qaUbd": {
-   "t": 1794475540.424945,
-   "created": "2026-11-12T09:24:38Z"
+  "Cb9VymXZboT8EAWSwBZsssGUiLax3LmLfZmWPFYghUtS": {
+   "t": 1794484142.6969728,
+   "created": "2026-11-12T11:46:02Z"
   },
-  "43JnzvTixV5NqPacjjJWQDqnGA31bcjyHmgZPqMg8Qg1": {
-   "t": 1794475540.424945,
-   "created": "2026-11-12T09:24:31Z"
+  "CYRNCeeAx7UFAsJzrDsRpLYGeaxWHL2zVXtRjDYB1jMn": {
+   "t": 1794484142.6969728,
+   "created": "2026-11-12T11:46:01Z"
   },
-  "DRBL2ufgJCpFayEYwka4JxK3vVQWSttrxyG68P8PZnMm": {
-   "t": 1794475540.424945,
-   "created": "2026-11-12T09:24:25Z"
+  "DgUFctTKYFChBYDwoEpAsM6pJ3RJvPLywdwFLh6Hpy6J": {
+   "t": 1794484142.6969728,
+   "created": "2026-11-12T11:45:54Z"
   },
-  "9ULD3Xx9FUovFGvCn7xmwrSqKEhgG93yV2fvSZA3AUWA": {
-   "t": 1794475540.424945,
-   "created": "2026-11-12T09:24:24Z"
+  "98Rr5BrgY5FymWYtMiovQgtPN6Kg73UhdkoTKb4NAfy2": {
+   "t": 1794484142.6969728,
+   "created": "2026-11-12T11:45:51Z"
   },
-  "5GyxXqtJoMCBncY39k4zSDfBaPUEHMDcYbywRgHkpLU2": {
-   "t": 1794475540.424945,
-   "created": "2026-11-12T09:24:18Z"
+  "52i31XBmttSiLScAT4YZrcGcgo4GyziGKHUWAQFRj7iK": {
+   "t": 1794484142.6969728,
+   "created": "2026-11-12T11:45:48Z"
   },
-  "5g16DbkyT1vvHHQXPgEoFRZYYSxfAj35zsQs4F9QRMat": {
-   "t": 1794475540.424945,
-   "created": "2026-11-12T09:24:16Z"
+  "23BLoBLvMxCFBYsYcgjAh6qUMa3zSYE3TSnk1n4mgYTo": {
+   "t": 1794484142.6969728,
+   "created": "2026-11-12T11:45:46Z"
   },
-  "4iGbuad6hqs1UXi3DHMorZy2NZSv5318cfakDNeJJxLi": {
-   "t": 1794475540.424945,
-   "created": "2026-11-12T09:24:16Z"
+  "EPmh4heVhN9UyMpejzKRvadejAspBA8CP1AUngAQ7Xgo": {
+   "t": 1794484142.6969728,
+   "created": "2026-11-12T11:45:46Z"
   },
-  "siuSdAY66Zc3cJfSZFq3fwGPfvsA1ra5gpGm5nenBEN": {
-   "t": 1794475540.424945,
-   "created": "2026-11-12T09:23:57Z"
+  "4Hx4MLYULoWhCnwJSfJfnGUqEeReZF62sBoj8TRxpDjU": {
+   "t": 1794484142.6969728,
+   "created": "2026-11-12T11:45:43Z"
   },
-  "9u3aa2mGgTwFME8joarVJtqu87aK9H1LMjUaFgc8CzUv": {
-   "t": 1794475540.424945,
-   "created": "2026-11-12T09:23:47Z"
+  "GRxuML3ckmgukvK5soFGwdTu36GFrG2xNaz1yjXpueBp": {
+   "t": 1794484142.6969728,
+   "created": "2026-11-12T11:45:41Z"
   },
-  "J2gfggwH4uJR7FcFKiDVP6bRBbkEiYTMRGwWB3Gs6AAb": {
-   "t": 1794475540.424945,
-   "created": "2026-11-12T09:23:47Z"
+  "2QFHqi8BSYsdLrqQyZCucH43j7TnzdKMnbosNhCa8iyE": {
+   "t": 1794484142.6969728,
+   "created": "2026-11-12T11:45:36Z"
   },
-  "AGXUtpqAYdS9qjQUTo4nUykWJiLPVaVDKCAGzqHYkBQ": {
-   "t": 1794475540.424945,
-   "created": "2026-11-12T09:23:46Z"
+  "8YmWJJgEFsfzEjhi5vGW6HYzmohhQTXXWUv5FCtgg8P7": {
+   "t": 1794484142.6969728,
+   "created": "2026-11-12T11:45:28Z"
   },
-  "Ev8PsxjPrm2hEz1pZm7AZUS4NhBV5Ka8bVHCU7AfuCVP": {
-   "t": 1794475540.424945,
-   "created": "2026-11-12T09:23:41Z"
+  "ysg25D3aJ9HqmHoLjbDLMPCT3YaWbJUXkhJMbsoacbL": {
+   "t": 1794484142.6969728,
+   "created": "2026-11-12T11:45:26Z"
   },
-  "EJEXcg6FrEBaG3gt8d442Zdp9zmVyzNyqQQX2DxSxVcM": {
-   "t": 1794475540.424945,
-   "created": "2026-11-12T09:23:37Z"
+  "FVmrsakWAEFmVwe5oKSGvYZYQDxMFnsi1tcRD2ZJpacD": {
+   "t": 1794484142.6969728,
+   "created": "2026-11-12T11:45:14Z"
   },
-  "HMA6CGuVW76tWFxBekHXRvm5xjWFHqYcMN6kjQfJ6aaS": {
-   "t": 1794475540.424945,
-   "created": "2026-11-12T09:23:36Z"
+  "mUQGH29gJmJzs5qH97oU7JZ3hNNBt6h6Y9GtFHjth57": {
+   "t": 1794484142.6969728,
+   "created": "2026-11-12T11:45:10Z"
   },
-  "56CgHZkJTmXBscFteKEeHTT7aaQY3YyS4enbqMgeB7J6": {
-   "t": 1794475540.424945,
-   "created": "2026-11-12T09:23:30Z"
+  "6HzkTHecLgSFvahdApMdtk2BBeoMRVXRECm2br36nACW": {
+   "t": 1794484142.6969728,
+   "created": "2026-11-12T11:45:09Z"
   },
-  "GZpzjcehzf7k6Jz7zBAx72p9oscq6jcrNXqFf9WAKbm2": {
-   "t": 1794475540.424945,
-   "created": "2026-11-12T09:23:28Z"
-  },
-  "Da8Vx4qLoyLQdvMP2uVEfvXAfCvzB6ZHMrS9bWFbMBek": {
-   "t": 1794475540.424945,
-   "created": "2026-11-12T09:23:27Z"
-  },
-  "Cxb2f4j7GmBnLoUcTLRmYpiyeEFPivGXBuZbpQBFaqMn": {
-   "t": 1794475540.424945,
-   "created": "2026-11-12T09:23:25Z"
-  },
-  "2xN1P2fpUe3XQ6R5caJ4Pevocch5stfouCXy8WYxv6Rs": {
-   "t": 1794475540.424945,
-   "created": "2026-11-12T09:23:23Z"
-  },
-  "6R4yKwc9nC9UVbuVuGZi4tpSkpsD4juyw989smYCZu3J": {
-   "t": 1794475540.424945,
-   "created": "2026-11-12T09:23:23Z"
-  },
-  "J2kuLMLubAjmkGBphCUWNxFsRwWHBqESocMmRFN6KoBc": {
-   "t": 1794475540.424945,
-   "created": "2026-11-12T09:23:22Z"
-  },
-  "G18yA9cbzAvxgfxZYxnTzE3An4iUkYUDNDXR4sCa3LTG": {
-   "t": 1794475540.424945,
-   "created": "2026-11-12T09:23:19Z"
-  },
-  "mP3tj5UhDW4p7JrgJqLxyRUDatV6BqrZkuHDYqtToU4": {
-   "t": 1794475630.8896644,
-   "created": "2026-11-12T09:24:47Z"
-  },
-  "Eih11idncLnJvP7XHpQ7MJgGoF6pGvU5cicPaKxs6Ufn": {
-   "t": 1794475630.8896644,
-   "created": "2026-11-12T09:24:15Z"
-  },
-  "N7jLv6yMNgF6pXrq24Vfssc9y2tM8k87BNY2Xwg5mtd": {
-   "t": 1794475630.8896644,
-   "created": "2026-11-12T09:24:14Z"
-  },
-  "3wSnsur8Gc6ruUwsAEh6QPcvsjbWDX2Sd6XUeY9pusGM": {
-   "t": 1794475630.8896644,
-   "created": "2026-11-12T09:24:14Z"
-  },
-  "CGD8Z1bMc2fFZbaS1BFdV2sqwQ9ELiWpb9qVuntWcuSB": {
-   "t": 1794475630.8896644,
-   "created": "2026-11-12T09:24:01Z"
+  "GHDE61NGBTUmYX4oSjAN9oqjYgHZr4n6wDeFq6dxJJTx": {
+   "t": 1794484142.6969728,
+   "created": "2026-11-12T11:45:09Z"
   }
- }
+ },
+ "last_poll": 1794484144.3931105
 }

@@ -208,6 +208,80 @@ def rug_signals(pos, a, now, ratio):
     return sig
 
 
+def candles(addr):
+    """1-minute candles, oldest first: [(ts, o, h, l, c, v)] (GeckoTerminal keeps ~16 h at 1 000 candles)."""
+    d = get("%s/pools/%s/ohlcv/minute?aggregate=1&limit=1000&currency=usd" % (BASE, addr))
+    time.sleep(2.2)
+    try:
+        return sorted(tuple(float(x) for x in c) for c in d["data"]["attributes"]["ohlcv_list"])
+    except Exception:
+        return []
+
+
+def replay(pos, now):
+    """Catch-up after a pause: walk the 1-minute candles since entry and apply take profit, stop and
+    time exit in order. Within one candle the stop is assumed to hit first (conservative). The rug rule
+    needs live liquidity data and is NOT replayed. -> (reason, fill_price, exit_ts) or None."""
+    cs = [c for c in candles(pos["addr"]) if c[0] >= pos["t"] - 60]
+    if not cs:
+        return None
+    entry = pos["entry"]
+    for ts, o, h, l, c, v in cs:
+        pos["high"] = max(pos["high"], h)
+        if ts - pos["t"] >= COMMON["max_hold_h"] * 3600:
+            return "TIME", c * (1 - COMMON["slip_sell"]), ts
+        if l <= entry * (1 - COMMON["stop_loss"]):
+            return "SL", entry * (1 - COMMON["stop_loss"]) * (1 - COMMON["slip_stop"]), ts
+        if h >= entry * COMMON["take_profit_x"]:
+            return "TP", entry * COMMON["take_profit_x"] * (1 - COMMON["slip_sell"]), ts
+    pos["last"] = cs[-1][4]
+    return None
+
+
+def replay_seen(r, addr):
+    """Fill p30 / p120 / max for an unpicked candidate from candles, so pauses do not distort the record."""
+    cs = [c for c in candles(addr) if c[0] >= r["t"] - 60]
+    if not cs:
+        return
+    r["max"] = max([r.get("max", 0)] + [c[2] for c in cs if c[0] - r["t"] <= 7200])
+    for ts, o, h, l, c, v in cs:
+        if ts - r["t"] >= 1800 and "p30" not in r: r["p30"] = c
+        if ts - r["t"] >= 7200 and "p120" not in r: r["p120"] = c; break
+
+
+def close_pos(L, pos, reason, fillp, when, note=""):
+    proceeds = pos["qty"] * fillp
+    L["cash"][pos["strat"]] += proceeds
+    pnl = proceeds - pos["cost"]
+    L["closed"].append(dict(strat=pos["strat"], name=pos["name"], reason=reason, pnl=round(pnl, 2),
+                            pct=round(pnl / pos["cost"] * 100, 1), held_min=round((when - pos["t"]) / 60),
+                            peak_x=round(pos["high"] / pos["entry"], 2), fdv0=pos.get("fdv0"), replay=bool(note)))
+    log("SELL [%s] %-14s %-4s pnl %+.2f (%+.0f%%) peak x%.2f %s" % (pos["strat"], pos["name"], reason, pnl,
+                                                                  pnl / pos["cost"] * 100, pos["high"] / pos["entry"], note))
+
+
+def catch_up(L, now):
+    """If the bot was paused (the sandbox sleeps between Claude's turns), settle what happened meanwhile."""
+    gap = now - L.get("last_poll", now)
+    if gap < 180:
+        return
+    log("PAUSE detected: %.0f min without polling -> replaying candles" % (gap / 60))
+    keep = []
+    for pos in L["open"]:
+        res = replay(pos, now)
+        if res:
+            reason, fillp, ts = res
+            close_pos(L, pos, reason, fillp, ts, note="(replayed)")
+        else:
+            keep.append(pos)
+    L["open"] = keep
+    n = 0
+    for a, r in list(L["seen"].items()):
+        if not r["picked"] and "p120" not in r and now - r["t"] >= 1800 and n < 40:
+            replay_seen(r, a); n += 1
+    log("catch-up done: %d candidates re-priced" % n)
+
+
 def manage(L, now):
     addrs = [p["addr"] for p in L["open"]]
     watch = [a for a, r in L["seen"].items() if not r["picked"] and "p120" not in r and now - r["t"] < 9000]
@@ -228,6 +302,7 @@ def manage(L, now):
             else:
                 still.append(pos); continue
         pos["high"] = max(pos["high"], p)
+        pos["last"] = p
         ratio = p / pos["entry"] if pos["entry"] else 0
         reason = None
         sig = rug_signals(pos, attrs.get(pos["addr"]), now, ratio)
@@ -274,9 +349,11 @@ def main():
     while True:
         now = time.time()
         try:
+            catch_up(L, now)
             scan(L, now)
             eval_pending(L, now)
             manage(L, now)
+            L["last_poll"] = time.time()
             save(L)
             tick += 1
             if tick % 10 == 0:

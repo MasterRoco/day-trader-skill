@@ -1,2 +1,8 @@
-09:26:09 memebot v2 start (PAPER): strategies migr,curve, sleeve 1000 each, 50 per trade
-09:27:11 BUY  [curve] pfpup          fill 1.3178456e-05 fdv 12795 liq 5616 buyers5 261 (4DSJ1y)
+11:48:00 memebot v2 start (PAPER): strategies migr,curve, sleeve 1000 each, 50 per trade
+11:48:01 BUY  [migr] GTMAX          fill 3.3766712e-05 fdv 32783 liq 14088 buyers5 74 (9c1yac)
+11:48:01 BUY  [migr] Max            fill 3.7858591e-05 fdv 36756 liq 14249 buyers5 102 (BqGevJ)
+11:48:01 BUY  [migr] 哈基仙人           fill 2.5106969e-05 fdv 24376 liq 38804 buyers5 217 (5VLPd8)
+11:49:03 BUY  [migr] fomo           fill 0.00011006792 fdv 99839 liq 22717 buyers5 31 (H5WEQU)
+11:49:03 BUY  [curve] Stake          fill 1.1001977e-05 fdv 9049 liq 5014 buyers5 91 (FZETB4)
+11:49:03 BUY  [curve] JUMP           fill 1.6086349e-05 fdv 31236 liq 12090 buyers5 12 (4UhMCZ)
+11:49:04 SELL [migr] 哈基仙人           SL   pnl -49.95 (-100%) peak x0.97

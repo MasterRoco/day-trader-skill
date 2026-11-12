@@ -1,18 +1,8 @@
-09:13:52 memebot start (PAPER). sleeve 1000, 50 per trade
-09:13:52 BUY  FLC            fill 0.00060464276  fdv 589819 liq 216561 buyers5 106  (Cjdkgx)
-09:14:53 skip JOE            liq 36 < 15000
-09:15:03 memebot start (PAPER). sleeve 1000, 50 per trade
-09:15:03 skip JOE            liq 36 < 3000
-09:16:04 BUY  MAXGTA         fill 3.6729976e-05  fdv 35652 liq 14100 buyers5 38  (EHCiga)
-09:17:15 BUY  Ejaw           fill 0.053853032  fdv 51719 liq 97015 buyers5 42  (3u6FsJ)
-09:18:16 BUY  牛逼猫            fill 1.741266e-05  fdv 16905 liq 33377 buyers5 38  (2Tgmt1)
-09:18:16 BUY  Shiqi          fill 0.00061300514  fdv 591687 liq 217412 buyers5 34  (7uRVh6)
-09:18:16 skip FLC            clone name
-09:18:16 skip 牛逼猫            liq 0 < 3000
-09:18:16 BUY  DCAT           fill 3.4140299e-05  fdv 33116 liq 14187 buyers5 160  (2HEVAf)
-09:19:00 memebot v2 start (PAPER): strategies migr,curve, sleeve 1000 each, 50 per trade
-09:19:00 BUY  [migr] 猫仙人            fill 2.0382129e-05 fdv 19788 liq 36370 buyers5 158 (9N1LYS)
-09:20:02 BUY  [migr] Flying Cat     fill 1.9336569e-05 fdv 18220 liq 33472 buyers5 77 (CBXM9b)
-09:22:26 BUY  [curve] MERGE          fill 1.6460634e-05 fdv 16340 liq 6056 buyers5 137 (dNgh4F)
-09:26:09 memebot v2 start (PAPER): strategies migr,curve, sleeve 1000 each, 50 per trade
-09:27:11 BUY  [curve] pfpup          fill 1.3178456e-05 fdv 12795 liq 5616 buyers5 261 (4DSJ1y)
+11:48:00 memebot v2 start (PAPER): strategies migr,curve, sleeve 1000 each, 50 per trade
+11:48:01 BUY  [migr] GTMAX          fill 3.3766712e-05 fdv 32783 liq 14088 buyers5 74 (9c1yac)
+11:48:01 BUY  [migr] Max            fill 3.7858591e-05 fdv 36756 liq 14249 buyers5 102 (BqGevJ)
+11:48:01 BUY  [migr] 哈基仙人           fill 2.5106969e-05 fdv 24376 liq 38804 buyers5 217 (5VLPd8)
+11:49:03 BUY  [migr] fomo           fill 0.00011006792 fdv 99839 liq 22717 buyers5 31 (H5WEQU)
+11:49:03 BUY  [curve] Stake          fill 1.1001977e-05 fdv 9049 liq 5014 buyers5 91 (FZETB4)
+11:49:03 BUY  [curve] JUMP           fill 1.6086349e-05 fdv 31236 liq 12090 buyers5 12 (4UhMCZ)
+11:49:04 SELL [migr] 哈基仙人           SL   pnl -49.95 (-100%) peak x0.97

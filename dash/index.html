@@ -1,0 +1,331 @@
+<title>Papier-Trading Live</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@500&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
+<style>
+/* Layout: ein Instrumentenbrett. Oben der Zustand (Chips + 3 Kontostände), darunter Aktien, zwei Memecoin-Strategien im Vergleich,
+   die ungefilterte Kandidatenstatistik und der Ereignis-Strom. */
+:root {
+  --bg: #f1f3f7; --panel: #ffffff; --ink: #121a26; --muted: #576274; --line: #dce1ea;
+  --accent: #2457d6; --accent-soft: #e4ebfb;
+  --good: #11795a; --good-soft: #def3ea; --bad: #c0292b; --bad-soft: #fae3e3; --warn: #96560a; --warn-soft: #f9ecd3;
+  --font: "IBM Plex Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --mono: "IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #0c1118; --panel: #141b25; --ink: #e6ebf3; --muted: #8d99ab; --line: #253042;
+    --accent: #7399ff; --accent-soft: #1b2a4d;
+    --good: #43c08e; --good-soft: #12301f; --bad: #f1736e; --bad-soft: #3a1b1d; --warn: #e3a64c; --warn-soft: #33270f;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #0c1118; --panel: #141b25; --ink: #e6ebf3; --muted: #8d99ab; --line: #253042;
+  --accent: #7399ff; --accent-soft: #1b2a4d;
+  --good: #43c08e; --good-soft: #12301f; --bad: #f1736e; --bad-soft: #3a1b1d; --warn: #e3a64c; --warn-soft: #33270f;
+  color-scheme: dark;
+}
+* { box-sizing: border-box; }
+body { background: var(--bg); color: var(--ink); font-family: var(--font); font-size: 14px; line-height: 1.45;
+  padding-inline: max(16px, env(safe-area-inset-left, 0px)) max(16px, env(safe-area-inset-right, 0px)); padding-block: 20px 48px; }
+.wrap { max-width: 1180px; margin: 0 auto; display: flex; flex-direction: column; gap: 20px; }
+h1 { font-size: 22px; font-weight: 600; margin: 0; letter-spacing: -0.01em; }
+h2 { font-size: 15px; font-weight: 600; margin: 0 0 2px; text-wrap: balance; }
+h3 { font-size: 12px; font-weight: 600; margin: 0 0 8px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.06em; }
+p { margin: 0; }
+.mono, .num { font-family: var(--mono); font-variant-numeric: tabular-nums; }
+.muted { color: var(--muted); }
+.good { color: var(--good); } .bad { color: var(--bad); } .warn { color: var(--warn); }
+
+.top { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 10px 16px; }
+.chips { display: flex; flex-wrap: wrap; gap: 6px; }
+.chip { display: inline-flex; align-items: center; gap: 6px; padding: 3px 10px; border-radius: 999px; font-size: 12px; font-weight: 500;
+  background: var(--accent-soft); color: var(--accent); }
+.chip i { width: 7px; height: 7px; border-radius: 50%; background: currentColor; display: inline-block; }
+.chip.ok { background: var(--good-soft); color: var(--good); }
+.chip.off { background: var(--bad-soft); color: var(--bad); }
+.chip.stale { background: var(--warn-soft); color: var(--warn); }
+.chip.neutral { background: var(--line); color: var(--muted); }
+
+.kpis { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 12px; }
+.panel { background: var(--panel); border: 1px solid var(--line); border-radius: 10px; padding: 16px; min-width: 0; }
+.kpi { display: flex; flex-direction: column; gap: 4px; }
+.kpi .big { font-family: var(--mono); font-variant-numeric: tabular-nums; font-size: 28px; font-weight: 500; letter-spacing: -0.02em; }
+.kpi .sub { display: flex; flex-wrap: wrap; gap: 4px 12px; font-size: 13px; }
+.spark { width: 100%; height: 44px; margin-top: 6px; display: block; }
+
+.grid2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(340px, 1fr)); gap: 12px; }
+.tablewrap { overflow-x: auto; }
+table { border-collapse: collapse; width: 100%; font-size: 13px; }
+th { text-align: left; font-weight: 500; color: var(--muted); font-size: 12px; padding: 4px 10px 6px 0; border-bottom: 1px solid var(--line); white-space: nowrap; }
+td { padding: 7px 10px 7px 0; border-bottom: 1px solid var(--line); vertical-align: middle; }
+tr:last-child td { border-bottom: 0; }
+th.r, td.r { text-align: right; padding-right: 0; padding-left: 10px; }
+.empty { color: var(--muted); padding: 10px 0; font-size: 13px; }
+
+.gauge { position: relative; height: 8px; border-radius: 4px; background: var(--line); min-width: 110px; }
+.gauge .fill { position: absolute; top: 0; bottom: 0; left: 0; border-radius: 4px; background: var(--accent); }
+.gauge .mark { position: absolute; top: -3px; bottom: -3px; width: 2px; background: var(--ink); opacity: 0.55; }
+.legend { display: flex; flex-wrap: wrap; gap: 4px 14px; font-size: 12px; color: var(--muted); margin-top: 6px; }
+
+.stat { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 8px; margin: 10px 0 12px; }
+.stat div { background: var(--bg); border-radius: 8px; padding: 8px 10px; }
+.stat b { display: block; font-family: var(--mono); font-weight: 500; font-size: 18px; font-variant-numeric: tabular-nums; }
+.stat span { font-size: 11px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.05em; }
+.pill { display: inline-block; padding: 1px 8px; border-radius: 999px; font-size: 11px; font-weight: 600; letter-spacing: 0.03em; }
+.pill.TP, .pill.TARGET { background: var(--good-soft); color: var(--good); }
+.pill.SL, .pill.STOP, .pill.RUG { background: var(--bad-soft); color: var(--bad); }
+.pill.TIME, .pill.FLAT { background: var(--line); color: var(--muted); }
+
+.feeds { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 12px; }
+.feed { font-family: var(--mono); font-size: 12px; max-height: 280px; overflow: auto; display: flex; flex-direction: column; gap: 6px; }
+.feed div { padding-bottom: 6px; border-bottom: 1px solid var(--line); overflow-wrap: anywhere; }
+.feed div:last-child { border-bottom: 0; }
+.rounds { display: flex; flex-wrap: wrap; gap: 6px 14px; font-size: 13px; margin-top: 10px; }
+.note { font-size: 12px; color: var(--muted); max-width: 90ch; }
+.callout { border-left: 3px solid var(--warn); background: var(--warn-soft); padding: 10px 12px; border-radius: 0 8px 8px 0; font-size: 13px; }
+.sect-head { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: baseline; gap: 4px 12px; margin-bottom: 10px; }
+button.theme { font: inherit; font-size: 12px; padding: 4px 10px; border: 1px solid var(--line); background: var(--panel); color: var(--ink); border-radius: 8px; cursor: pointer; }
+button.theme:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+@media (max-width: 520px) { .stat { grid-template-columns: repeat(2, minmax(0, 1fr)); } .kpi .big { font-size: 24px; } }
+@media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
+</style>
+
+<div class="wrap" id="app">
+  <div class="top">
+    <div>
+      <h1>Trading Live</h1>
+      <p class="muted" id="subtitle">Papier-Konto · Demo-Geld · wird geladen …</p>
+    </div>
+    <div class="chips" id="chips"></div>
+  </div>
+  <div class="kpis" id="kpis"></div>
+  <section id="stocks"></section>
+  <section id="crypto"></section>
+  <section id="unbiased"></section>
+  <section id="activity"></section>
+  <p class="note" id="foot">Alles Papiergeld: keine Wallet, kein Broker, keine Schlüssel. Fills zum Marktkurs mit Slippage-Annahme, in der Realität schlechter. Die Seite zeigt den Stand, den Claude zuletzt hier abgelegt hat, sie rechnet nichts selbst. Der Rechner ruht zwischen Claudes Aktivitäten: Stop, Ziel und Zeit-Ausstieg werden danach aus 1-Minuten-Kerzen rückwirkend geprüft (die Rug-Regel nicht, sie braucht Live-Daten), und neue Migrationen in der Pause werden verpasst.</p>
+</div>
+
+<script>
+(function () {
+  "use strict";
+  var S = {}; // documents by id: stocks, crypto, activity, meta, history
+  var fmtUsd = new Intl.NumberFormat("de-DE", { style: "currency", currency: "USD", maximumFractionDigits: 2 });
+  var fmtNum = new Intl.NumberFormat("de-DE", { maximumFractionDigits: 2 });
+  var usd = function (v) { return v == null ? "–" : fmtUsd.format(v); };
+  var sgn = function (v) { return v == null ? "–" : (v > 0 ? "+" : v < 0 ? "−" : "") + fmtUsd.format(Math.abs(v)); };
+  var pct = function (v) { return v == null ? "–" : (v > 0 ? "+" : v < 0 ? "−" : "") + fmtNum.format(Math.abs(v)) + " %"; };
+  var cls = function (v) { return v > 0 ? "good" : v < 0 ? "bad" : "muted"; };
+
+  function h(tag, attrs) {
+    var el = document.createElement(tag);
+    if (attrs) for (var k in attrs) {
+      if (k === "class") el.className = attrs[k];
+      else if (k === "text") el.textContent = attrs[k];
+      else el.setAttribute(k, attrs[k]);
+    }
+    for (var i = 2; i < arguments.length; i++) {
+      var c = arguments[i];
+      if (c == null || c === false) continue;
+      el.appendChild(typeof c === "string" || typeof c === "number" ? document.createTextNode(String(c)) : c);
+    }
+    return el;
+  }
+  function put(id) { var el = document.getElementById(id); el.textContent = ""; for (var i = 1; i < arguments.length; i++) if (arguments[i]) el.appendChild(arguments[i]); return el; }
+  function empty(t) { return h("p", { class: "empty", text: t }); }
+  function span(t, c) { return h("span", { class: c || "", text: t }); }
+
+  function sparkline(points, key, start) {
+    var W = 240, H = 44, pad = 4;
+    var svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+    svg.setAttribute("viewBox", "0 0 " + W + " " + H); svg.setAttribute("class", "spark"); svg.setAttribute("preserveAspectRatio", "none");
+    svg.setAttribute("role", "img"); svg.setAttribute("aria-label", "Kontoverlauf");
+    var vals = (points || []).map(function (p) { return p[key]; }).filter(function (v) { return typeof v === "number"; });
+    if (vals.length < 2) return svg;
+    var lo = Math.min.apply(null, vals.concat([start])), hi = Math.max.apply(null, vals.concat([start]));
+    if (hi === lo) { hi += 1; lo -= 1; }
+    var x = function (i) { return pad + (W - 2 * pad) * i / (vals.length - 1); };
+    var y = function (v) { return H - pad - (H - 2 * pad) * (v - lo) / (hi - lo); };
+    function el(n, a) { var e = document.createElementNS("http://www.w3.org/2000/svg", n); for (var k in a) e.setAttribute(k, a[k]); return e; }
+    svg.appendChild(el("line", { x1: 0, x2: W, y1: y(start), y2: y(start), stroke: "var(--line)", "stroke-width": 1, "stroke-dasharray": "3 3" }));
+    svg.appendChild(el("polyline", { points: vals.map(function (v, i) { return x(i).toFixed(1) + "," + y(v).toFixed(1); }).join(" "), fill: "none",
+      stroke: vals[vals.length - 1] >= start ? "var(--good)" : "var(--bad)", "stroke-width": 1.8, "stroke-linejoin": "round", "vector-effect": "non-scaling-stroke" }));
+    svg.appendChild(el("circle", { cx: x(vals.length - 1), cy: y(vals[vals.length - 1]), r: 2.6, fill: vals[vals.length - 1] >= start ? "var(--good)" : "var(--bad)" }));
+    return svg;
+  }
+
+  function kpi(title, equity, start, sub, pts, key) {
+    var d = equity - start;
+    return h("div", { class: "panel kpi" },
+      h("h3", { text: title }),
+      h("div", { class: "big", text: usd(equity) }),
+      h("div", { class: "sub" }, span(sgn(d) + " (" + pct(d / start * 100) + ")", "num " + cls(d)), span("Start " + usd(start), "muted num")),
+      sub ? h("div", { class: "sub muted" }, sub) : null,
+      sparkline(pts, key, start));
+  }
+
+  function ageMin() { var m = S.meta; if (!m) return null; return Math.max(0, Math.round((Date.now() - new Date(m.updated).getTime()) / 60000)); }
+  function fmtTime(iso) { try { return new Date(iso).toLocaleTimeString("de-DE", { hour: "2-digit", minute: "2-digit", second: "2-digit" }); } catch (e) { return "–"; } }
+
+  function renderChips() {
+    var m = S.meta, st = S.stocks, a = ageMin();
+    var chips = [h("span", { class: "chip neutral", text: "PAPIER · kein echtes Geld" })];
+    if (st) chips.push(h("span", { class: "chip " + (st.market === "open" ? "ok" : "neutral") }, h("i"), "Börse " + (st.market === "open" ? "offen" : "geschlossen")));
+    if (m) {
+      var proc = function (name, alive, age) {
+        if (!alive) return h("span", { class: "chip off" }, h("i"), name + " gestoppt");
+        var n = age == null ? null : Math.round(age + a);
+        if (n == null || n <= 3) return h("span", { class: "chip ok" }, h("i"), name + " aktiv");
+        return h("span", { class: "chip stale", title: "Der Rechner ruht zwischen Claudes Aktivitäten. Danach holt der Bot Stop und Ziel aus den Kerzen nach." }, h("i"), name + " pausiert · zuletzt vor " + n + " Min");
+      };
+      chips.push(proc("Memecoin-Bot", m.bot_alive, m.bot_age_min));
+      chips.push(proc("Aktien-Monitor", m.monitor_alive, m.monitor_age_min));
+      chips.push(h("span", { class: "chip " + (a > 25 ? "stale" : "") }, h("i"), "Stand " + fmtTime(m.updated) + " · vor " + a + " Min"));
+    }
+    var box = document.getElementById("chips"); box.textContent = ""; chips.forEach(function (c) { box.appendChild(c); });
+    document.getElementById("subtitle").textContent = m ? "Papier-Konto · Claude aktualisiert etwa alle " + (m.refresh_min || 10) + " Minuten" + (a > 25 ? " · Daten sind älter als 25 Min, Claude ist gerade nicht aktiv" : "") : "Warte auf Daten …";
+  }
+
+  function renderKpis() {
+    var st = S.stocks, cr = S.crypto, hi = S.history && S.history.points || [];
+    var kids = [];
+    if (st) kids.push(kpi("Aktien-Konto", st.equity, st.start, "Heute realisiert " + sgn(st.realized_today) + " · Cash " + usd(st.cash), hi, "stocks"));
+    if (cr) {
+      var a = cr.strategies.migr, b = cr.strategies.curve;
+      kids.push(kpi("Memecoins · nach Migration", a.equity, a.start, a.open.length + " offen · " + a.counts.TP + " × Ziel · " + a.counts.SL + " × Stop", hi, "migr"));
+      kids.push(kpi("Memecoins · vor Migration", b.equity, b.start, b.open.length + " offen · " + b.counts.TP + " × Ziel · " + b.counts.SL + " × Stop", hi, "curve"));
+    }
+    var box = document.getElementById("kpis"); box.textContent = ""; kids.forEach(function (k) { box.appendChild(k); });
+    if (!kids.length) box.appendChild(h("div", { class: "panel" }, empty("Noch keine Daten. Claude legt den ersten Stand gleich ab.")));
+  }
+
+  function renderStocks() {
+    var st = S.stocks; if (!st) return put("stocks");
+    var open = st.open.length ? h("div", { class: "tablewrap" }, h("table", null,
+      h("thead", null, h("tr", null, h("th", { text: "Aktie" }), h("th", { class: "r", text: "Stück" }), h("th", { class: "r", text: "Einstieg" }), h("th", { class: "r", text: "Kurs" }),
+        h("th", { text: "Stop → Ziel" }), h("th", { class: "r", text: "P&L" }))),
+      h("tbody", null, st.open.map(function (p) {
+        var g = h("div", { class: "gauge", title: "Stop " + usd(p.stop) + " · Ziel " + usd(p.target) });
+        if (p.stop != null && p.target != null && p.target > p.stop) {
+          var f = Math.max(0, Math.min(1, (p.last - p.stop) / (p.target - p.stop)));
+          var fill = h("div", { class: "fill" }); fill.style.width = (f * 100).toFixed(1) + "%"; g.appendChild(fill);
+        }
+        return h("tr", null, h("td", { class: "mono", text: p.symbol }), h("td", { class: "r num", text: fmtNum.format(p.qty) }), h("td", { class: "r num", text: usd(p.entry) }),
+          h("td", { class: "r num", text: usd(p.last) }), h("td", null, g, h("div", { class: "legend" }, span(usd(p.stop), "num"), span(usd(p.target), "num"))),
+          h("td", { class: "r num " + cls(p.pnl), text: sgn(p.pnl) }));
+      })))) : empty("Keine offene Position. Neue Setups prüft Claude in den Runden unten.");
+    var tr = st.trades.length ? h("div", { class: "tablewrap" }, h("table", null,
+      h("thead", null, h("tr", null, h("th", { text: "Datum" }), h("th", { text: "Aktie" }), h("th", { class: "r", text: "Stück" }), h("th", { class: "r", text: "Ein" }), h("th", { class: "r", text: "Aus" }), h("th", { text: "Grund" }), h("th", { class: "r", text: "P&L" }))),
+      h("tbody", null, st.trades.slice().reverse().map(function (t) {
+        return h("tr", null, h("td", { class: "num", text: t.date }), h("td", { class: "mono", text: t.symbol }), h("td", { class: "r num", text: t.qty }), h("td", { class: "r num", text: usd(t.entry) }),
+          h("td", { class: "r num", text: usd(t.exit) }), h("td", null, h("span", { class: "pill " + t.reason, text: t.reason })), h("td", { class: "r num " + cls(t.pnl), text: sgn(t.pnl) }));
+      })))) : empty("Noch keine geschlossenen Trades.");
+    var L = st.limits || {};
+    var rounds = h("div", { class: "rounds" }, st.rounds.map(function (r) { return h("span", null, h("b", { class: "num", text: r.t + " ET" }), " " + r.l); }));
+    put("stocks", h("div", { class: "panel" },
+      h("div", { class: "sect-head" }, h("h2", { text: "Aktien" }), h("span", { class: "muted", text: "Limits: max. " + usd(L.max_loss_trade) + " Verlust je Trade · " + usd(L.max_daily_loss) + " pro Tag · " + L.trades_today + " von " + L.max_trades + " Trades heute" })),
+      h("h3", { text: "Offene Positionen" }), open, h("div", { style: "height:14px" }), h("h3", { text: "Geschlossene Trades" }), tr, rounds));
+  }
+
+  function xGauge(p) {
+    // Skala 0,4x (Stop bei −40 %) bis 3,0x (Ziel bei +200 %); Markierung bei 1,0x
+    var lo = 0.6, hi = 3.0, f = Math.max(0, Math.min(1, (p.x - lo) / (hi - lo)));
+    var g = h("div", { class: "gauge", title: "Stop 0,6× · Einstieg 1,0× · Ziel 3,0×" });
+    var fill = h("div", { class: "fill" }); fill.style.width = (f * 100).toFixed(1) + "%"; fill.style.background = p.x >= 1 ? "var(--good)" : "var(--bad)";
+    var m = h("div", { class: "mark" }); m.style.left = ((1 - lo) / (hi - lo) * 100).toFixed(1) + "%";
+    g.appendChild(fill); g.appendChild(m); return g;
+  }
+
+  function stratPanel(key) {
+    var s = S.crypto.strategies[key];
+    var open = s.open.length ? h("div", { class: "tablewrap" }, h("table", null,
+      h("thead", null, h("tr", null, h("th", { text: "Coin" }), h("th", { class: "r", text: "× Einstieg" }), h("th", { text: "Stop 0,6 · Ziel 3,0" }), h("th", { class: "r", text: "P&L" }), h("th", { class: "r", text: "Min" }))),
+      h("tbody", null, s.open.map(function (p) {
+        return h("tr", null, h("td", null, h("span", { class: "mono", text: p.name }), h("div", { class: "muted num", text: "FDV $" + fmtNum.format(p.fdv0) })),
+          h("td", { class: "r num " + (p.x >= 1 ? "good" : "bad"), text: fmtNum.format(p.x) + "×" }), h("td", null, xGauge(p)),
+          h("td", { class: "r num " + cls(p.pnl), text: sgn(p.pnl) }), h("td", { class: "r num muted", text: p.held_min }));
+      })))) : empty("Keine offene Position.");
+    var cl = s.closed.length ? h("div", { class: "tablewrap" }, h("table", null,
+      h("thead", null, h("tr", null, h("th", { text: "Coin" }), h("th", { text: "Grund" }), h("th", { class: "r", text: "Spitze" }), h("th", { class: "r", text: "Min" }), h("th", { class: "r", text: "P&L" }))),
+      h("tbody", null, s.closed.slice(0, 12).map(function (c) {
+        return h("tr", null, h("td", { class: "mono", text: c.name }), h("td", null, h("span", { class: "pill " + c.reason, text: c.reason })), h("td", { class: "r num", text: fmtNum.format(c.peak_x) + "×" }),
+          h("td", { class: "r num muted", text: c.held_min }), h("td", { class: "r num " + cls(c.pnl), text: sgn(c.pnl) + " (" + pct(c.pct) + ")" }));
+      })))) : empty("Noch kein Trade geschlossen.");
+    var C = s.counts;
+    return h("div", { class: "panel" },
+      h("h2", { text: s.label }), h("p", { class: "note", text: s.rule }),
+      h("div", { class: "stat" },
+        h("div", null, h("b", { class: cls(s.equity - s.start), text: usd(s.equity) }), h("span", { text: "Wert" })),
+        h("div", null, h("b", { class: cls(s.realized), text: sgn(s.realized) }), h("span", { text: "Realisiert" })),
+        h("div", null, h("b", { class: cls(s.unrealized), text: sgn(s.unrealized) }), h("span", { text: "Offen" })),
+        h("div", null, h("b", { text: s.picked + " / " + s.evaluated }), h("span", { text: "Gekauft / geprüft" }))),
+      h("div", { class: "legend", style: "margin:0 0 10px" }, h("span", null, h("span", { class: "pill TP", text: "TP" }), " " + C.TP), h("span", null, h("span", { class: "pill SL", text: "SL" }), " " + C.SL),
+        h("span", null, h("span", { class: "pill TIME", text: "ZEIT" }), " " + C.TIME), h("span", null, h("span", { class: "pill RUG", text: "RUG" }), " " + C.RUG), span("Ø " + pct(s.avg_pct) + " je Trade", "num")),
+      h("h3", { text: "Offen" }), open, h("div", { style: "height:12px" }), h("h3", { text: "Zuletzt geschlossen" }), cl);
+  }
+
+  function renderCrypto() {
+    if (!S.crypto) return put("crypto");
+    put("crypto",
+      h("div", { class: "sect-head" }, h("h2", { text: "Memecoins im Vergleich" }), h("span", { class: "muted", text: "je $1.000 Papier-Topf · $50 pro Trade · Ausstieg bei +200 %, Stop −40 %, nach 2 Std. · " + S.crypto.pending + " Pools warten auf Prüfung" })),
+      h("div", { class: "grid2" }, stratPanel("migr"), stratPanel("curve")));
+  }
+
+  function renderUnbiased() {
+    if (!S.crypto) return put("unbiased");
+    var u = S.crypto.unbiased;
+    function row(k, name) {
+      var d = u[k];
+      return h("tr", null, h("td", { text: name }), h("td", { class: "r num", text: d.tracked }), h("td", { class: "r num", text: d.finished }),
+        h("td", { class: "r num", text: d.finished ? d.hit3x + " (" + fmtNum.format(d.hit3x / d.finished * 100) + " %)" : "–" }),
+        h("td", { class: "r num", text: d.median_x120 == null ? "–" : fmtNum.format(d.median_x120) + "×" }),
+        h("td", { class: "r num", text: d.finished ? d.below_half + " (" + fmtNum.format(d.below_half / d.finished * 100) + " %)" : "–" }));
+    }
+    put("unbiased", h("div", { class: "panel" },
+      h("h2", { text: "Alle geprüften Kandidaten, auch die nicht gekauften" }),
+      h("p", { class: "note", text: "Das ist der faire Test: Jeder Coin, der den Preis-Mindestwert hatte, wird nach 2 Stunden neu bewertet, egal ob der Bot ihn gekauft hat. So zeigt sich, ob die Filter etwas bringen." }),
+      h("div", { class: "tablewrap", style: "margin-top:8px" }, h("table", null,
+        h("thead", null, h("tr", null, h("th", { text: "Strategie" }), h("th", { class: "r", text: "Verfolgt" }), h("th", { class: "r", text: "Nach 2 Std." }), h("th", { class: "r", text: "Spitze ≥ 3×" }), h("th", { class: "r", text: "Median nach 2 Std." }), h("th", { class: "r", text: "Unter 0,5×" }))),
+        h("tbody", null, row("migr", "Nach Migration"), row("curve", "Vor Migration")))),
+      h("div", { class: "callout", style: "margin-top:12px", text: "Wenige Stunden Daten sind ein erster Eindruck, kein Beweis. Papier-Fills ignorieren gescheiterte Swaps, Honeypots und Front-Running; ein Plus hier heißt nicht, dass echtes Geld dasselbe verdient." })));
+  }
+
+  function feed(title, lines, renderLine) {
+    var box = h("div", { class: "feed" });
+    if (!lines || !lines.length) box.appendChild(h("div", { class: "muted", text: "Noch nichts." }));
+    else lines.forEach(function (l) { box.appendChild(renderLine(l)); });
+    return h("div", { class: "panel" }, h("h3", { text: title }), box);
+  }
+  function renderActivity() {
+    var a = S.activity; if (!a) return put("activity");
+    put("activity", h("div", { class: "sect-head" }, h("h2", { text: "Was gerade passiert" })),
+      h("div", { class: "feeds" },
+        feed("Claude · Entscheidungen", a.claude, function (e) { return h("div", null, h("span", { class: "muted", text: e.t + " · " }), e.text); }),
+        feed("Memecoin-Bot (UTC)", a.crypto.slice().reverse(), function (l) { return h("div", { text: l }); }),
+        feed("Aktien-Monitor (New York)", a.stocks.slice().reverse(), function (l) { return h("div", { text: l }); })));
+  }
+
+  function render() { renderChips(); renderKpis(); renderStocks(); renderCrypto(); renderUnbiased(); renderActivity(); }
+
+  var theme = h("button", { class: "theme", type: "button", id: "themebtn", text: "Hell / Dunkel" });
+  theme.addEventListener("click", function () {
+    var r = document.documentElement, dark = r.getAttribute("data-theme") === "dark" || (!r.getAttribute("data-theme") && matchMedia("(prefers-color-scheme: dark)").matches);
+    r.setAttribute("data-theme", dark ? "light" : "dark");
+  });
+  document.getElementById("foot").appendChild(document.createTextNode(" "));
+  document.getElementById("foot").appendChild(theme);
+
+  render();
+  setInterval(renderChips, 20000); // nur die Anzeige "vor X Min" erneuern, nichts schreiben
+
+  if (!(window.claude && window.claude.use)) { document.getElementById("subtitle").textContent = "Vorschau ohne Datenbank."; return; }
+  window.claude.use("db").then(function (db) {
+    if (!db) { document.getElementById("subtitle").textContent = "Die Datenbank ist in dieser Ansicht nicht verfügbar (bitte angemeldet öffnen)."; return; }
+    db.collection("live").onSnapshot(function (snap) {
+      snap.docs.forEach(function (d) { S[d.id] = d.data(); });
+      render();
+    }, function (e) { document.getElementById("subtitle").textContent = "Daten nicht lesbar (" + (e && e.code) + ")."; });
+  }).catch(function () { document.getElementById("subtitle").textContent = "Die Datenbank ist in dieser Ansicht nicht verfügbar."; });
+})();
+</script>
