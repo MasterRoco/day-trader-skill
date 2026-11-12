@@ -28,7 +28,9 @@ COMMON = dict(sleeve_usd=1000.0, position_usd=50.0, max_open=8, take_profit_x=3.
               max_drawdown=0.50)   # no new entries once a strategy is down 50% (open positions still managed)
 STRAT = {
     "migr":  dict(dex="pumpswap", max_age_min=20, min_liq_usd=3000, fdv_min=8000, fdv_max=2000000, min_buyers_5m=8),
-    "curve": dict(dex="pump-fun", eval_min=5, eval_max=20, min_liq_usd=0, fdv_min=8000, fdv_max=50000, min_buyers_5m=10),
+    # min_liq 1000: a pump-fun pool that reports no liquidity has completed its curve (the coin already moved to
+    # PumpSwap); its price is frozen there and cannot be bought (12.11.: 4 of 4 checked such buys were stale)
+    "curve": dict(dex="pump-fun", eval_min=5, eval_max=20, min_liq_usd=1000, fdv_min=8000, fdv_max=50000, min_buyers_5m=10),
 }
 RUG = dict(min_pool_age_min=30,      # migr positions: rule is active from this pool age on ...
            only_in_profit=True,       # ... and only while the position is in profit (user rule)
@@ -122,6 +124,10 @@ def evaluate(L, now, strat, a, addr):
     elif n_open >= COMMON["max_open"]: why = "max open"
     elif L["cash"][strat] < COMMON["position_usd"]: why = "no cash"
     elif strat_equity(L, strat) < COMMON["sleeve_usd"] * (1 - COMMON["max_drawdown"]): why = "drawdown pause"
+    if why is None and strat == "curve" and a.get("_token"):
+        d = get("%s/tokens/%s/pools" % (BASE, a["_token"]))
+        if d and any(p["attributes"]["address"] != addr for p in d.get("data", [])):
+            why = "already migrated"
     if why is None:
         fill = price * (1 + COMMON["slip_buy"])
         L["cash"][strat] -= COMMON["position_usd"]
@@ -172,6 +178,7 @@ def eval_pending(L, now):
         got = set()
         for p in d["data"]:
             a = p["attributes"]; got.add(a["address"])
+            a["_token"] = (((p.get("relationships") or {}).get("base_token") or {}).get("data") or {}).get("id", "").split("_", 1)[-1]
             evaluate(L, now, "curve", a, a["address"])
             L["pending"].pop(a["address"], None)
         for addr in batch:
@@ -189,8 +196,35 @@ def prices(addrs):
         for p in d["data"]:
             a = p["attributes"]
             out[a["address"]] = f(a["base_token_price_usd"])
+            a["_token"] = (((p.get("relationships") or {}).get("base_token") or {}).get("data") or {}).get("id", "").split("_", 1)[-1]
             attrs[a["address"]] = a
     return out, attrs
+
+
+def trades(a, win):
+    t = ((a or {}).get("transactions") or {}).get(win) or {}
+    return (t.get("buys") or 0) + (t.get("sells") or 0)
+
+
+def live_pool(pos, a):
+    """A bonding-curve coin that completes its curve moves to PumpSwap; the pump-fun pool then freezes at its last
+    price and can no longer be traded. Return the token's pool that still trades (most liquidity), or None."""
+    tok = pos.get("token") or (a or {}).get("_token")
+    if not tok:
+        return None
+    pos["token"] = tok
+    d = get("%s/tokens/%s/pools" % (BASE, tok))
+    best = None
+    for p in (d or {}).get("data", []):
+        at = p["attributes"]
+        base = (((p.get("relationships") or {}).get("base_token") or {}).get("data") or {}).get("id", "")
+        if at["address"] == pos["addr"] or not base.endswith(tok):
+            continue
+        if trades(at, "h1") == 0 and f(at.get("reserve_in_usd")) < 100:
+            continue
+        if best is None or f(at.get("reserve_in_usd")) > f(best.get("reserve_in_usd")):
+            best = at
+    return best
 
 
 def rug_signals(pos, a, now, ratio):
@@ -240,7 +274,8 @@ def replay(pos, now):
         if ts - pos["t"] >= COMMON["max_hold_h"] * 3600:
             return "TIME", c * (1 - COMMON["slip_sell"]), ts
         if l <= entry * (1 - COMMON["stop_loss"]):
-            return "SL", entry * (1 - COMMON["stop_loss"]) * (1 - COMMON["slip_stop"]), ts
+            # a candle that opens below the stop gapped through it: the stop fills at the open, not at the stop
+            return "SL", min(o, entry * (1 - COMMON["stop_loss"])) * (1 - COMMON["slip_stop"]), ts
         if h >= entry * COMMON["take_profit_x"]:
             return "TP", entry * COMMON["take_profit_x"] * (1 - COMMON["slip_sell"]), ts
     pos["last"] = cs[-1][4]
@@ -264,9 +299,26 @@ def close_pos(L, pos, reason, fillp, when, note=""):
     pnl = proceeds - pos["cost"]
     L["closed"].append(dict(strat=pos["strat"], name=pos["name"], reason=reason, pnl=round(pnl, 2),
                             pct=round(pnl / pos["cost"] * 100, 1), held_min=round((when - pos["t"]) / 60),
-                            peak_x=round(pos["high"] / pos["entry"], 2), fdv0=pos.get("fdv0"), replay=bool(note)))
+                            peak_x=round(pos["high"] / pos["entry"], 2), fdv0=pos.get("fdv0"), replay=bool(note),
+                            addr=pos["addr"], moved=pos.get("moved", False)))
     log("SELL [%s] %-14s %-4s pnl %+.2f (%+.0f%%) peak x%.2f %s" % (pos["strat"], pos["name"], reason, pnl,
                                                                   pnl / pos["cost"] * 100, pos["high"] / pos["entry"], note))
+
+
+def follow_moves(L, now, px, attrs):
+    """Move curve positions whose pump-fun pool went quiet to the pool where the token still trades."""
+    for pos in L["open"]:
+        a0 = attrs.get(pos["addr"])
+        if pos["strat"] != "curve" or a0 is None or trades(a0, "m5") > 0 or now - pos.get("route_ck", 0) < 300:
+            continue
+        pos["route_ck"] = now
+        nb = live_pool(pos, a0)
+        if nb:
+            log("MOVE [curve] %-14s curve pool frozen at x%.2f -> trading pool %s at x%.2f (liq %.0f)" % (
+                pos["name"], f(a0.get("base_token_price_usd")) / pos["entry"], nb["address"][:6],
+                f(nb["base_token_price_usd"]) / pos["entry"], f(nb.get("reserve_in_usd"))))
+            pos["addr"] = nb["address"]; pos["moved"] = True
+            px[nb["address"]] = f(nb["base_token_price_usd"]); attrs[nb["address"]] = nb
 
 
 def catch_up(L, now):
@@ -275,6 +327,12 @@ def catch_up(L, now):
     if gap < 90:
         return
     log("PAUSE detected: %.0f min without polling -> replaying candles" % (gap / 60))
+    curve = [p["addr"] for p in L["open"] if p["strat"] == "curve"]
+    if curve:
+        px, attrs = prices(curve)
+        follow_moves(L, now, px, attrs)
+        for p in L["open"]:
+            p.pop("route_ck", None)   # let the first live cycle check again
     keep = []
     for pos in L["open"]:
         res = replay(pos, now)
@@ -302,6 +360,7 @@ def manage(L, now):
         if el >= 1800 and "p30" not in r: r["p30"] = p
         if el >= 7200 and "p120" not in r: r["p120"] = p
         r["max"] = max(r.get("max", 0), p)
+    follow_moves(L, now, px, attrs)
     still = []
     for pos in L["open"]:
         p = px.get(pos["addr"])
@@ -341,7 +400,8 @@ def manage(L, now):
             pnl = proceeds - pos["cost"]
             L["closed"].append(dict(strat=pos["strat"], name=pos["name"], reason=reason, pnl=round(pnl, 2),
                                     pct=round(pnl / pos["cost"] * 100, 1), held_min=round((now - pos["t"]) / 60),
-                                    peak_x=round(pos["high"] / pos["entry"], 2), fdv0=pos.get("fdv0")))
+                                    peak_x=round(pos["high"] / pos["entry"], 2), fdv0=pos.get("fdv0"),
+                                    addr=pos["addr"], moved=pos.get("moved", False)))
             log("SELL [%s] %-14s %-4s pnl %+.2f (%+.0f%%) peak x%.2f" % (pos["strat"], pos["name"], reason, pnl,
                                                                       pnl / pos["cost"] * 100, pos["high"] / pos["entry"]))
         else:

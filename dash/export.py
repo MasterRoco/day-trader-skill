@@ -109,7 +109,8 @@ for s in ("migr", "curve"):
                          closed=list(reversed(cl[-25:])), counts=counts,
                          avg_pct=round(sum(c["pct"] for c in cl) / len(cl), 1) if cl else None,
                          evaluated=len(seen), picked=sum(1 for r in seen if r.get("picked")))
-    done = [r for r in seen if "p120" in r and r.get("price0")]
+    # curve pools without liquidity had already completed their curve: their price is frozen, not a real outcome
+    done = [r for r in seen if "p120" in r and r.get("price0") and (s != "curve" or r.get("liq", 0) > 0)]
     xs = [r["p120"] / r["price0"] for r in done]
     unbiased[s] = dict(tracked=len(seen), finished=len(done),
                        hit3x=sum(1 for r in done if r.get("max", 0) >= 3 * r["price0"]),
