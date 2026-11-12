@@ -310,7 +310,7 @@ def manage(L, now):
         a_ = attrs.get(pos["addr"]) or {}
         t5 = (a_.get("transactions") or {}).get("m5") or {}
         liq_now = f(a_.get("reserve_in_usd"), -1)
-        if a_ and 0 <= liq_now < max(100.0, 0.02 * pos.get("liq0", 0)) and (t5.get("buys") or 0) + (t5.get("sells") or 0) == 0 \
+        if pos["strat"] == "migr" and a_ and 0 <= liq_now < max(100.0, 0.02 * pos.get("liq0", 0)) and (t5.get("buys") or 0) + (t5.get("sells") or 0) == 0 \
                 and now - pos["t"] >= 300:
             close_pos(L, pos, "DEAD", 0.0, now, note="(no liquidity, no trades)")
             continue
