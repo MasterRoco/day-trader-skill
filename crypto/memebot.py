@@ -324,7 +324,8 @@ def manage(L, now):
         sig = rug_signals(pos, attrs.get(pos["addr"]), now, ratio)
         rug = bool(sig) and (any(x.startswith("liquidity") for x in sig) or len(sig) >= 2)
         if ratio >= COMMON["take_profit_x"]:
-            reason, fillp = "TP", p * (1 - COMMON["slip_sell"])
+            # a take-profit sells at the target, not at a spike (and a thin pool could never absorb a spike-sized sell)
+            reason, fillp = "TP", pos["entry"] * COMMON["take_profit_x"] * (1 - COMMON["slip_sell"])
         elif rug:
             reason, fillp = "RUG", p * (1 - COMMON["slip_stop"])
             if any(x.startswith("liquidity -") and float(x.split("-")[1].rstrip("%")) >= 90 for x in sig):
