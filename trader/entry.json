@@ -1,22 +1,22 @@
 {
   "created_by": "trader-entry",
-  "symbol": "AMZN",
+  "symbol": "INTC",
   "setup": "orb",
   "side": "buy",
   "date": "2026-11-12",
   "status": "triggered",
-  "time": "9:55 AM",
-  "bar_start": "09:50",
-  "bar_index": 4,
-  "price": 273.26,
-  "level": 272.48,
+  "time": "10:55 AM",
+  "bar_start": "10:50",
+  "bar_index": 16,
+  "price": 61.96,
+  "level": 61.2,
   "interval": "5m",
   "opening_range": {
-    "high": 272.48,
-    "low": 267.83,
+    "high": 61.2,
+    "low": 59.41,
     "minutes": 15
   },
   "source": "yahoo",
-  "checked_at": "2026-11-12T14:59:03Z",
-  "reason": "the 9:50 bar closed above the range high"
+  "checked_at": "2026-11-12T15:59:15Z",
+  "reason": "the 10:50 bar closed above the range high"
 }
