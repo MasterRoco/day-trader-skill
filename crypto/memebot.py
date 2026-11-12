@@ -29,6 +29,11 @@ STRAT = {
     "migr":  dict(dex="pumpswap", max_age_min=20, min_liq_usd=3000, fdv_min=8000, fdv_max=2000000, min_buyers_5m=8),
     "curve": dict(dex="pump-fun", eval_min=5, eval_max=20, min_liq_usd=0, fdv_min=8000, fdv_max=50000, min_buyers_5m=10),
 }
+RUG = dict(min_pool_age_min=30,      # migr positions: rule is active from this pool age on ...
+           only_in_profit=True,       # ... and only while the position is in profit (user rule)
+           liq_drop=0.40,             # pool liquidity down 40% from entry/peak = liquidity pulled
+           price_dump=0.25,           # price 25% under the peak since entry
+           sell_x=2.0, min_sells=15)  # 5-min sells >= 2x buys and at least 15 sells
 PENDING_MAX = 120   # curve pools waiting for their evaluation age
 
 
@@ -115,7 +120,8 @@ def evaluate(L, now, strat, a, addr):
         L["cash"][strat] -= COMMON["position_usd"]
         L["names"][name] = now
         L["open"].append(dict(strat=strat, addr=addr, name=name, entry=fill, qty=COMMON["position_usd"] / fill, t=now,
-                              cost=COMMON["position_usd"], high=price, fdv0=fdv))
+                              cost=COMMON["position_usd"], high=price, fdv0=fdv,
+                              liq0=liq, liq_peak=liq, created_ts=now - rec["age_min"] * 60))
         rec["picked"] = True
         log("BUY  [%s] %-14s fill %.8g fdv %.0f liq %.0f buyers5 %s (%s)" % (strat, name, fill, fdv, liq, buyers, addr[:6]))
     else:
@@ -167,20 +173,45 @@ def eval_pending(L, now):
 
 
 def prices(addrs):
-    out = {}
+    """-> (price by pool, attributes by pool)"""
+    out, attrs = {}, {}
     for i in range(0, len(addrs), 30):
         d = get("%s/pools/multi/%s" % (BASE, ",".join(addrs[i:i + 30])))
         if not d:
             continue
         for p in d["data"]:
-            out[p["attributes"]["address"]] = f(p["attributes"]["base_token_price_usd"])
-    return out
+            a = p["attributes"]
+            out[a["address"]] = f(a["base_token_price_usd"])
+            attrs[a["address"]] = a
+    return out, attrs
+
+
+def rug_signals(pos, a, now, ratio):
+    """Return the list of rug-pull warning signs for a migrated position, or [] when the rule does not apply."""
+    if pos["strat"] != "migr" or a is None:
+        return []
+    age = (now - pos.get("created_ts", pos["t"])) / 60
+    if age < RUG["min_pool_age_min"] or (RUG["only_in_profit"] and ratio <= 1.0):
+        return []
+    sig = []
+    liq = f(a.get("reserve_in_usd"))
+    base = max(pos.get("liq0", 0), pos.get("liq_peak", 0))
+    pos["liq_peak"] = max(pos.get("liq_peak", 0), liq)
+    if base > 0 and liq > 0 and liq <= base * (1 - RUG["liq_drop"]):
+        sig.append("liquidity -%.0f%%" % ((1 - liq / base) * 100))
+    if pos["high"] > 0 and f(a.get("base_token_price_usd")) <= pos["high"] * (1 - RUG["price_dump"]):
+        sig.append("price %.0f%% under peak" % ((1 - f(a.get("base_token_price_usd")) / pos["high"]) * 100))
+    tx5 = (a.get("transactions") or {}).get("m5") or {}
+    buys, sells = tx5.get("buys") or 0, tx5.get("sells") or 0
+    if sells >= RUG["min_sells"] and sells >= RUG["sell_x"] * max(buys, 1):
+        sig.append("sell pressure %d sells/%d buys" % (sells, buys))
+    return sig
 
 
 def manage(L, now):
     addrs = [p["addr"] for p in L["open"]]
     watch = [a for a, r in L["seen"].items() if not r["picked"] and "p120" not in r and now - r["t"] < 9000]
-    px = prices(list(dict.fromkeys(addrs + watch)))
+    px, attrs = prices(list(dict.fromkeys(addrs + watch)))
     for a in watch:
         r = L["seen"][a]; p = px.get(a)
         if p is None: continue
@@ -199,8 +230,13 @@ def manage(L, now):
         pos["high"] = max(pos["high"], p)
         ratio = p / pos["entry"] if pos["entry"] else 0
         reason = None
+        sig = rug_signals(pos, attrs.get(pos["addr"]), now, ratio)
+        rug = bool(sig) and (any(x.startswith("liquidity") for x in sig) or len(sig) >= 2)
         if ratio >= COMMON["take_profit_x"]:
             reason, fillp = "TP", p * (1 - COMMON["slip_sell"])
+        elif rug:
+            reason, fillp = "RUG", p * (1 - COMMON["slip_stop"])
+            log("RUG? [%s] %-14s %s" % (pos["strat"], pos["name"], "; ".join(sig)))
         elif ratio <= 1 - COMMON["stop_loss"]:
             reason, fillp = "SL", p * (1 - COMMON["slip_stop"])
         elif now - pos["t"] >= COMMON["max_hold_h"] * 3600:
