@@ -1,8 +1,8 @@
 {
   "created_by": "trader-scanner",
-  "created_at": "2026-11-12T14:58:47Z",
+  "created_at": "2026-11-12T15:17:42Z",
   "mode": "orb",
-  "as_of": "2026-11-12 09:58 ET",
+  "as_of": "2026-11-12 10:17 ET",
   "universe": 24,
   "scanned": 24,
   "failed": 0,
@@ -41,6 +41,45 @@
       "or_high": 272.48,
       "or_low": 267.83,
       "pct_over": 0.29
+    },
+    {
+      "symbol": "MSFT",
+      "setups": [
+        "orb"
+      ],
+      "price": 525.88,
+      "at": "10:00 AM",
+      "bar_start": "09:55",
+      "bar_index": 5,
+      "or_high": 525.83,
+      "or_low": 520.51,
+      "pct_over": 0.01
+    },
+    {
+      "symbol": "NVDA",
+      "setups": [
+        "orb"
+      ],
+      "price": 162.66,
+      "at": "10:00 AM",
+      "bar_start": "09:55",
+      "bar_index": 5,
+      "or_high": 162.33,
+      "or_low": 149.27,
+      "pct_over": 0.2
+    },
+    {
+      "symbol": "SMCI",
+      "setups": [
+        "orb"
+      ],
+      "price": 28.19,
+      "at": "10:00 AM",
+      "bar_start": "09:55",
+      "bar_index": 5,
+      "or_high": 28.0,
+      "or_low": 26.96,
+      "pct_over": 0.68
     }
   ]
 }
