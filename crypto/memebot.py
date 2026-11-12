@@ -286,7 +286,7 @@ def catch_up(L, now):
     L["open"] = keep
     n = 0
     for a, r in list(L["seen"].items()):
-        if not r["picked"] and "p120" not in r and now - r["t"] >= 1800 and n < 40:
+        if not r["picked"] and "p120" not in r and now - r["t"] >= 1800 and n < 10:
             replay_seen(r, a); n += 1
     log("catch-up done: %d candidates re-priced" % n)
 
