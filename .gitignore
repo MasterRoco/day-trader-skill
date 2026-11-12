@@ -1,0 +1,18 @@
+# paper-trading runtime state (changes every minute; the live dashboard is the record)
+crypto/ledger.json
+crypto/ledger.json.tmp
+crypto/*.log
+crypto/*.out
+crypto/gt_new.json
+crypto/ps_pools.json
+dash/out/
+dash/history.json
+paper/heartbeat
+paper/*.log
+paper/*.out
+paper/open_positions.json
+paper/STOP
+trader/prices.json
+trader/state/alerts.json
+paper/.events_offset
+paper/events.jsonl

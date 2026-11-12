@@ -1,0 +1,163 @@
+{
+  "created_by": "trader-scanner",
+  "created_at": "2026-11-11T17:30:50Z",
+  "mode": "orb",
+  "as_of": "2026-11-11 12:30 ET",
+  "universe": 20,
+  "scanned": 17,
+  "failed": 0,
+  "unconfirmed": 0,
+  "source": "yahoo",
+  "or_minutes": 15,
+  "interval": "5m",
+  "filters": {
+    "min_price": 5.0,
+    "min_volume": 0
+  },
+  "note": "A scan is a list of charts that match a rule, not a list of stocks to buy.",
+  "hits": [
+    {
+      "symbol": "AAPL",
+      "setups": [
+        "orb"
+      ],
+      "price": 353.68,
+      "at": "9:50 AM",
+      "bar_start": "09:45",
+      "bar_index": 3,
+      "or_high": 353.43,
+      "or_low": 349.33,
+      "pct_over": 0.07
+    },
+    {
+      "symbol": "MU",
+      "setups": [
+        "orb"
+      ],
+      "price": 779.98,
+      "at": "9:55 AM",
+      "bar_start": "09:50",
+      "bar_index": 4,
+      "or_high": 779.49,
+      "or_low": 763.05,
+      "pct_over": 0.06
+    },
+    {
+      "symbol": "TSLA",
+      "setups": [
+        "orb"
+      ],
+      "price": 393.08,
+      "at": "10:15 AM",
+      "bar_start": "10:10",
+      "bar_index": 8,
+      "or_high": 392.67,
+      "or_low": 386.35,
+      "pct_over": 0.1
+    },
+    {
+      "symbol": "AMD",
+      "setups": [
+        "orb"
+      ],
+      "price": 543.72,
+      "at": "10:30 AM",
+      "bar_start": "10:25",
+      "bar_index": 11,
+      "or_high": 543.28,
+      "or_low": 522.98,
+      "pct_over": 0.08
+    },
+    {
+      "symbol": "COIN",
+      "setups": [
+        "orb"
+      ],
+      "price": 136.73,
+      "at": "10:40 AM",
+      "bar_start": "10:35",
+      "bar_index": 13,
+      "or_high": 136.3,
+      "or_low": 132.87,
+      "pct_over": 0.32
+    },
+    {
+      "symbol": "NVDA",
+      "setups": [
+        "orb"
+      ],
+      "price": 175.61,
+      "at": "10:55 AM",
+      "bar_start": "10:50",
+      "bar_index": 16,
+      "or_high": 175.13,
+      "or_low": 171.82,
+      "pct_over": 0.27
+    },
+    {
+      "symbol": "GOOGL",
+      "setups": [
+        "orb"
+      ],
+      "price": 291.85,
+      "at": "11:05 AM",
+      "bar_start": "11:00",
+      "bar_index": 18,
+      "or_high": 291.84,
+      "or_low": 289.56,
+      "pct_over": 0.0
+    },
+    {
+      "symbol": "UBER",
+      "setups": [
+        "orb"
+      ],
+      "price": 69.92,
+      "at": "11:45 AM",
+      "bar_start": "11:40",
+      "bar_index": 26,
+      "or_high": 69.89,
+      "or_low": 69.01,
+      "pct_over": 0.04
+    },
+    {
+      "symbol": "AVGO",
+      "setups": [
+        "orb"
+      ],
+      "price": 354.73,
+      "at": "12:00 PM",
+      "bar_start": "11:55",
+      "bar_index": 29,
+      "or_high": 354.5,
+      "or_low": 348.3,
+      "pct_over": 0.06
+    },
+    {
+      "symbol": "NFLX",
+      "setups": [
+        "orb"
+      ],
+      "price": 63.79,
+      "at": "12:00 PM",
+      "bar_start": "11:55",
+      "bar_index": 29,
+      "or_high": 63.75,
+      "or_low": 62.75,
+      "pct_over": 0.06
+    },
+    {
+      "symbol": "SHOP",
+      "setups": [
+        "orb"
+      ],
+      "price": 149.81,
+      "at": "12:05 PM",
+      "bar_start": "12:00",
+      "bar_index": 30,
+      "or_high": 149.8,
+      "or_low": 147.12,
+      "pct_over": 0.01
+    }
+  ]
+}
