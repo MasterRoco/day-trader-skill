@@ -131,8 +131,8 @@ def evaluate(L, now, strat, a, addr):
         L["seen"][addr] = rec
 
 
-def scan(L, now):
-    for page in (1, 2, 3):
+def scan(L, now, deep=False):
+    for page in (range(1, 11) if deep else (1, 2, 3)):
         d = get("%s/new_pools?page=%d" % (BASE, page))
         if not d:
             continue
@@ -263,7 +263,7 @@ def close_pos(L, pos, reason, fillp, when, note=""):
 def catch_up(L, now):
     """If the bot was paused (the sandbox sleeps between Claude's turns), settle what happened meanwhile."""
     gap = now - L.get("last_poll", now)
-    if gap < 180:
+    if gap < 90:
         return
     log("PAUSE detected: %.0f min without polling -> replaying candles" % (gap / 60))
     keep = []
@@ -349,8 +349,9 @@ def main():
     while True:
         now = time.time()
         try:
+            deep = now - L.get("last_poll", now) >= 90
             catch_up(L, now)
-            scan(L, now)
+            scan(L, now, deep)
             eval_pending(L, now)
             manage(L, now)
             L["last_poll"] = time.time()

@@ -135,7 +135,7 @@ mh = hb("paper/heartbeat")
 meta = dict(updated=ISO, bot_alive=alive("python3 -I memebot.py"), monitor_alive=alive("stock_monitor.py"),
             bot_age_min=round((now.timestamp() - lp) / 60, 1) if lp else None,
             monitor_age_min=round((now.timestamp() - mh) / 60, 1) if mh else None,
-            refresh_min=10, mode="PAPER")
+            refresh_min=2, mode="PAPER")
 
 hp = os.path.join(ROOT, "dash", "history.json")
 hist = rj("dash/history.json", [])
