@@ -1,0 +1,30 @@
+{
+ "cash": 950.0,
+ "open": [
+  {
+   "addr": "CjdkgxH7wJrC1dsqR1vqpQUEiTzgiH5NBCAtWFJRLCw6",
+   "name": "FLC",
+   "entry": 0.0006046427619847627,
+   "qty": 82693.45660547249,
+   "t": 1794474832.2742665,
+   "cost": 50.0,
+   "high": 0.0005870318077521967
+  }
+ ],
+ "closed": [],
+ "seen": {
+  "CjdkgxH7wJrC1dsqR1vqpQUEiTzgiH5NBCAtWFJRLCw6": {
+   "name": "FLC",
+   "t": 1794474832.2742665,
+   "price0": 0.0005870318077521967,
+   "liq": 216560.5895,
+   "fdv": 589818.7078,
+   "buyers5": 106,
+   "age_min": 2.1,
+   "picked": true
+  }
+ },
+ "names": {
+  "FLC": 1794474832.2742665
+ }
+}
