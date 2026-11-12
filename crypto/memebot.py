@@ -311,6 +311,8 @@ def manage(L, now):
             reason, fillp = "TP", p * (1 - COMMON["slip_sell"])
         elif rug:
             reason, fillp = "RUG", p * (1 - COMMON["slip_stop"])
+            if any(x.startswith("liquidity -") and float(x.split("-")[1].rstrip("%")) >= 90 for x in sig):
+                fillp = 0.0   # liquidity pulled: in reality nothing can be sold any more -> total loss
             log("RUG? [%s] %-14s %s" % (pos["strat"], pos["name"], "; ".join(sig)))
         elif ratio <= 1 - COMMON["stop_loss"]:
             reason, fillp = "SL", p * (1 - COMMON["slip_stop"])
