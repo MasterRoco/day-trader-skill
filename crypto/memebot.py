@@ -24,7 +24,8 @@ LEDGER = os.path.join(HERE, "ledger.json")
 LOG = os.path.join(HERE, "bot.log")
 
 COMMON = dict(sleeve_usd=1000.0, position_usd=50.0, max_open=8, take_profit_x=3.0, stop_loss=0.40,
-              max_hold_h=2.0, slip_buy=0.03, slip_sell=0.05, slip_stop=0.12, poll_s=60, name_cooldown_h=24)
+              max_hold_h=2.0, slip_buy=0.03, slip_sell=0.05, slip_stop=0.12, poll_s=60, name_cooldown_h=24,
+              max_drawdown=0.50)   # no new entries once a strategy is down 50% (open positions still managed)
 STRAT = {
     "migr":  dict(dex="pumpswap", max_age_min=20, min_liq_usd=3000, fdv_min=8000, fdv_max=2000000, min_buyers_5m=8),
     "curve": dict(dex="pump-fun", eval_min=5, eval_max=20, min_liq_usd=0, fdv_min=8000, fdv_max=50000, min_buyers_5m=10),
@@ -94,6 +95,11 @@ def age_min(created):
     return (datetime.datetime.now(datetime.timezone.utc) - t).total_seconds() / 60
 
 
+def strat_equity(L, strat):
+    """Cash plus open positions at their last known price."""
+    return L["cash"][strat] + sum(p["qty"] * p.get("last", p["entry"]) for p in L["open"] if p["strat"] == strat)
+
+
 def evaluate(L, now, strat, a, addr):
     """Apply the strategy's filter to pool attributes `a`; record the candidate; paper-buy if it passes."""
     S = STRAT[strat]
@@ -115,6 +121,7 @@ def evaluate(L, now, strat, a, addr):
     elif name in L["names"] and now - L["names"][name] < COMMON["name_cooldown_h"] * 3600: why = "clone name"
     elif n_open >= COMMON["max_open"]: why = "max open"
     elif L["cash"][strat] < COMMON["position_usd"]: why = "no cash"
+    elif strat_equity(L, strat) < COMMON["sleeve_usd"] * (1 - COMMON["max_drawdown"]): why = "drawdown pause"
     if why is None:
         fill = price * (1 + COMMON["slip_buy"])
         L["cash"][strat] -= COMMON["position_usd"]
