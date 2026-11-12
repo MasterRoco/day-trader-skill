@@ -1,19 +1,21 @@
 #!/usr/bin/env python3
-"""Paper-trading bot for freshly migrated Solana memecoins (Pump.fun -> PumpSwap).
+"""Paper-trading bot for Solana memecoins, two strategies side by side (PAPER ONLY, no wallet, no keys).
 
-PAPER ONLY. No wallet, no keys, no real orders. Reads GeckoTerminal's free public API.
+  migr  = buy right after migration: a fresh pool on the `pumpswap` dex
+  curve = buy BEFORE migration: a Pump.fun bonding-curve pool (dex `pump-fun`), evaluated at
+          age >= CURVE_EVAL_MIN minutes so there is real buyer activity to look at
 
-Rules (all in CONFIG below):
-  - scan new pools; a "migration" is a pool on the `pumpswap` dex younger than MAX_AGE_MIN
-  - paper-buy when liquidity, FDV and 5-minute buyer activity pass the filters
-  - exit: take profit at +200% (price x3), stop at -40%, or after MAX_HOLD_H hours
-  - fills are charged slippage; stops are charged more (dumps fill badly)
-  - EVERY migration seen is logged with its entry-time price and re-priced later, so the
-    result can be checked against ALL migrations, not only the ones the filters picked.
-Limits of the simulation: prices come from a 60 s poll, so a spike between polls is missed
-and a crash can gap past the stop; a real swap can fail, hit a honeypot or be front-run.
+Both use the same exits so they can be compared fairly:
+  take profit at +200% (x3), stop at -40%, time exit after MAX_HOLD_H hours.
+Each strategy has its own paper sleeve. Slippage is charged on every fill (stops cost most).
+
+Honest record: every candidate that was EVALUATED (picked or not) is re-priced after 30 min and
+2 h and its peak is kept, so the result can be checked against all candidates, not only the
+ones the filter picked.
+Limits: prices come from a 60 s poll (spikes between polls are missed, crashes can gap past a
+stop); a real swap can fail, hit a honeypot or be front-run; liquidity/FDV figures are the API's.
 """
-import json, time, datetime, os, sys, urllib.request, urllib.error
+import json, time, datetime, os, urllib.request, urllib.error
 
 BASE = "https://api.geckoterminal.com/api/v2/networks/solana"
 HDR = {"Accept": "application/json"}
@@ -21,29 +23,20 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 LEDGER = os.path.join(HERE, "ledger.json")
 LOG = os.path.join(HERE, "bot.log")
 
-CONFIG = dict(
-    sleeve_usd=1000.0,      # paper money for memecoins
-    position_usd=50.0,      # per trade (5% of the sleeve)
-    max_open=8,
-    max_age_min=20,         # pool must be this fresh to count as "just migrated"
-    min_liq_usd=3000,
-    fdv_min=8000, fdv_max=2000000,
-    min_buyers_5m=8,
-    take_profit_x=3.0,      # +200%
-    stop_loss=0.40,         # -40%
-    max_hold_h=2.0,
-    slip_buy=0.03, slip_sell=0.05, slip_stop=0.12,
-    poll_s=60,
-    name_cooldown_h=24,
-)
-C = CONFIG
+COMMON = dict(sleeve_usd=1000.0, position_usd=50.0, max_open=8, take_profit_x=3.0, stop_loss=0.40,
+              max_hold_h=2.0, slip_buy=0.03, slip_sell=0.05, slip_stop=0.12, poll_s=60, name_cooldown_h=24)
+STRAT = {
+    "migr":  dict(dex="pumpswap", max_age_min=20, min_liq_usd=3000, fdv_min=8000, fdv_max=2000000, min_buyers_5m=8),
+    "curve": dict(dex="pump-fun", eval_min=5, eval_max=20, min_liq_usd=0, fdv_min=8000, fdv_max=50000, min_buyers_5m=10),
+}
+PENDING_MAX = 120   # curve pools waiting for their evaluation age
 
 
 def log(msg):
     line = "%s %s" % (datetime.datetime.now(datetime.timezone.utc).strftime("%H:%M:%S"), msg)
     print(line, flush=True)
-    with open(LOG, "a") as f:
-        f.write(line + "\n")
+    with open(LOG, "a") as fh:
+        fh.write(line + "\n")
 
 
 def get(url):
@@ -61,8 +54,21 @@ def get(url):
 
 def load():
     if os.path.exists(LEDGER):
-        return json.load(open(LEDGER))
-    return dict(cash=C["sleeve_usd"], open=[], closed=[], seen={}, names={})
+        L = json.load(open(LEDGER))
+    else:
+        L = {}
+    cash = L.get("cash", COMMON["sleeve_usd"])
+    if not isinstance(cash, dict):          # migrate the v1 ledger
+        cash = {"migr": cash, "curve": COMMON["sleeve_usd"]}
+    L["cash"] = cash
+    for k in ("open", "closed"):
+        L.setdefault(k, [])
+    for rec in L["open"] + L["closed"]:
+        rec.setdefault("strat", "migr")
+    L.setdefault("seen", {}); L.setdefault("names", {}); L.setdefault("pending", {})
+    for r in L["seen"].values():
+        r.setdefault("strat", "migr")
+    return L
 
 
 def save(L):
@@ -83,46 +89,81 @@ def age_min(created):
     return (datetime.datetime.now(datetime.timezone.utc) - t).total_seconds() / 60
 
 
-def scan_new(L, now):
-    for page in (1, 2):
+def evaluate(L, now, strat, a, addr):
+    """Apply the strategy's filter to pool attributes `a`; record the candidate; paper-buy if it passes."""
+    S = STRAT[strat]
+    price = f(a.get("base_token_price_usd"))
+    liq = f(a.get("reserve_in_usd")); fdv = f(a.get("fdv_usd"))
+    tx5 = (a.get("transactions") or {}).get("m5") or {}
+    buyers = tx5.get("buyers") or 0
+    buys, sells = tx5.get("buys") or 0, tx5.get("sells") or 0
+    name = a["name"].split(" / ")[0]
+    rec = dict(strat=strat, name=name, t=now, price0=price, liq=liq, fdv=fdv, buyers5=buyers,
+               age_min=round(age_min(a["pool_created_at"]), 1), picked=False)
+    why = None
+    n_open = sum(1 for p in L["open"] if p["strat"] == strat)
+    if price <= 0: why = "no price"
+    elif liq < S["min_liq_usd"]: why = "liq %.0f" % liq
+    elif not (S["fdv_min"] <= fdv <= S["fdv_max"]): why = "fdv %.0f" % fdv
+    elif buyers < S["min_buyers_5m"]: why = "buyers %s" % buyers
+    elif strat == "curve" and buys <= sells: why = "sells>=buys"
+    elif name in L["names"] and now - L["names"][name] < COMMON["name_cooldown_h"] * 3600: why = "clone name"
+    elif n_open >= COMMON["max_open"]: why = "max open"
+    elif L["cash"][strat] < COMMON["position_usd"]: why = "no cash"
+    if why is None:
+        fill = price * (1 + COMMON["slip_buy"])
+        L["cash"][strat] -= COMMON["position_usd"]
+        L["names"][name] = now
+        L["open"].append(dict(strat=strat, addr=addr, name=name, entry=fill, qty=COMMON["position_usd"] / fill, t=now,
+                              cost=COMMON["position_usd"], high=price, fdv0=fdv))
+        rec["picked"] = True
+        log("BUY  [%s] %-14s fill %.8g fdv %.0f liq %.0f buyers5 %s (%s)" % (strat, name, fill, fdv, liq, buyers, addr[:6]))
+    else:
+        rec["skip"] = why
+    # keep a record only of candidates that were real enough to trade at all (fdv in range) -> bounded size
+    if S["fdv_min"] <= fdv:
+        L["seen"][addr] = rec
+
+
+def scan(L, now):
+    for page in (1, 2, 3):
         d = get("%s/new_pools?page=%d" % (BASE, page))
         if not d:
             continue
         for p in d["data"]:
-            a = p["attributes"]
+            a = p["attributes"]; addr = a["address"]
             dex = p["relationships"]["dex"]["data"]["id"]
-            if dex != "pumpswap":
+            if addr in L["seen"] or addr in L["pending"]:
                 continue
-            addr = a["address"]
-            age = age_min(a["pool_created_at"])
-            if age > C["max_age_min"] or addr in L["seen"]:
-                continue
-            price = f(a["base_token_price_usd"])
-            liq = f(a["reserve_in_usd"]); fdv = f(a["fdv_usd"])
-            tx5 = (a.get("transactions") or {}).get("m5") or {}
-            buyers = tx5.get("buyers") or 0
-            name = a["name"].split(" / ")[0]
-            rec = dict(name=name, t=now, price0=price, liq=liq, fdv=fdv, buyers5=buyers, age_min=round(age, 1), picked=False)
-            why = None
-            if price <= 0: why = "no price"
-            elif liq < C["min_liq_usd"]: why = "liq %.0f < %d" % (liq, C["min_liq_usd"])
-            elif not (C["fdv_min"] <= fdv <= C["fdv_max"]): why = "fdv %.0f" % fdv
-            elif buyers < C["min_buyers_5m"]: why = "buyers %s" % buyers
-            elif name in L["names"] and now - L["names"][name] < C["name_cooldown_h"] * 3600: why = "clone name"
-            elif len(L["open"]) >= C["max_open"]: why = "max open"
-            elif L["cash"] < C["position_usd"]: why = "no cash"
-            if why is None:
-                fill = price * (1 + C["slip_buy"])
-                qty = C["position_usd"] / fill
-                L["cash"] -= C["position_usd"]
-                L["names"][name] = now
-                L["open"].append(dict(addr=addr, name=name, entry=fill, qty=qty, t=now, cost=C["position_usd"], high=price))
-                rec["picked"] = True
-                log("BUY  %-14s fill %.8g  fdv %.0f liq %.0f buyers5 %s  (%s)" % (name, fill, fdv, liq, buyers, addr[:6]))
-            else:
-                rec["skip"] = why
-                log("skip %-14s %s" % (name, why))
-            L["seen"][addr] = rec
+            if dex == STRAT["migr"]["dex"]:
+                if age_min(a["pool_created_at"]) <= STRAT["migr"]["max_age_min"]:
+                    evaluate(L, now, "migr", a, addr)
+            elif dex == STRAT["curve"]["dex"] and len(L["pending"]) < PENDING_MAX:
+                L["pending"][addr] = dict(t=now, created=a["pool_created_at"])
+
+
+def eval_pending(L, now):
+    S = STRAT["curve"]
+    due, drop = [], []
+    for addr, pr in L["pending"].items():
+        a = age_min(pr["created"])
+        if a > S["eval_max"]: drop.append(addr)
+        elif a >= S["eval_min"]: due.append(addr)
+    for addr in drop:
+        L["pending"].pop(addr, None)
+    for i in range(0, len(due), 30):
+        batch = due[i:i + 30]
+        d = get("%s/pools/multi/%s" % (BASE, ",".join(batch)))
+        if not d:
+            continue
+        got = set()
+        for p in d["data"]:
+            a = p["attributes"]; got.add(a["address"])
+            evaluate(L, now, "curve", a, a["address"])
+            L["pending"].pop(a["address"], None)
+        for addr in batch:
+            if addr not in got:
+                L["pending"].pop(addr, None)   # pool gone: nothing to evaluate
 
 
 def prices(addrs):
@@ -138,8 +179,7 @@ def prices(addrs):
 
 def manage(L, now):
     addrs = [p["addr"] for p in L["open"]]
-    # also re-price recent unpicked migrations (30 min, 2 h) for the unbiased record
-    watch = [a for a, r in L["seen"].items() if not r["picked"] and ("p30" not in r or "p120" not in r) and now - r["t"] < 9000]
+    watch = [a for a, r in L["seen"].items() if not r["picked"] and "p120" not in r and now - r["t"] < 9000]
     px = prices(list(dict.fromkeys(addrs + watch)))
     for a in watch:
         r = L["seen"][a]; p = px.get(a)
@@ -152,45 +192,54 @@ def manage(L, now):
     for pos in L["open"]:
         p = px.get(pos["addr"])
         if p is None:
-            if now - pos["t"] > C["max_hold_h"] * 3600:
-                p = 0.0   # pool vanished or untradable: mark as total loss
+            if now - pos["t"] > COMMON["max_hold_h"] * 3600:
+                p = 0.0   # pool vanished / untradable: total loss
             else:
                 still.append(pos); continue
         pos["high"] = max(pos["high"], p)
         ratio = p / pos["entry"] if pos["entry"] else 0
         reason = None
-        if ratio >= C["take_profit_x"]:
-            reason, fillp = "TP", p * (1 - C["slip_sell"])
-        elif ratio <= 1 - C["stop_loss"]:
-            reason, fillp = "SL", p * (1 - C["slip_stop"])
-        elif now - pos["t"] >= C["max_hold_h"] * 3600:
-            reason, fillp = "TIME", p * (1 - C["slip_sell"])
+        if ratio >= COMMON["take_profit_x"]:
+            reason, fillp = "TP", p * (1 - COMMON["slip_sell"])
+        elif ratio <= 1 - COMMON["stop_loss"]:
+            reason, fillp = "SL", p * (1 - COMMON["slip_stop"])
+        elif now - pos["t"] >= COMMON["max_hold_h"] * 3600:
+            reason, fillp = "TIME", p * (1 - COMMON["slip_sell"])
         if reason:
             proceeds = pos["qty"] * fillp
-            L["cash"] += proceeds
+            L["cash"][pos["strat"]] += proceeds
             pnl = proceeds - pos["cost"]
-            L["closed"].append(dict(name=pos["name"], reason=reason, pnl=round(pnl, 2), pct=round(pnl / pos["cost"] * 100, 1),
-                                    held_min=round((now - pos["t"]) / 60), peak_x=round(pos["high"] / pos["entry"], 2)))
-            log("SELL %-14s %-4s pnl %+.2f (%+.0f%%) peak x%.2f" % (pos["name"], reason, pnl, pnl / pos["cost"] * 100, pos["high"] / pos["entry"]))
+            L["closed"].append(dict(strat=pos["strat"], name=pos["name"], reason=reason, pnl=round(pnl, 2),
+                                    pct=round(pnl / pos["cost"] * 100, 1), held_min=round((now - pos["t"]) / 60),
+                                    peak_x=round(pos["high"] / pos["entry"], 2), fdv0=pos.get("fdv0")))
+            log("SELL [%s] %-14s %-4s pnl %+.2f (%+.0f%%) peak x%.2f" % (pos["strat"], pos["name"], reason, pnl,
+                                                                      pnl / pos["cost"] * 100, pos["high"] / pos["entry"]))
         else:
             still.append(pos)
     L["open"] = still
 
 
 def summary(L):
-    n = len(L["closed"]); pnl = sum(c["pnl"] for c in L["closed"])
-    log("STATUS cash %.2f open %d closed %d realized %+.2f seen %d picked %d" % (
-        L["cash"], len(L["open"]), n, pnl, len(L["seen"]), sum(1 for r in L["seen"].values() if r["picked"])))
+    for s in STRAT:
+        cl = [c for c in L["closed"] if c["strat"] == s]
+        op = [p for p in L["open"] if p["strat"] == s]
+        tp = sum(c["reason"] == "TP" for c in cl)
+        log("STATUS [%s] cash %.2f open %d closed %d (TP %d) realized %+.2f | evaluated %d picked %d pending %d" % (
+            s, L["cash"][s], len(op), len(cl), tp, sum(c["pnl"] for c in cl),
+            sum(1 for r in L["seen"].values() if r["strat"] == s),
+            sum(1 for r in L["seen"].values() if r["strat"] == s and r["picked"]), len(L["pending"])))
 
 
 def main():
     L = load()
-    log("memebot start (PAPER). sleeve %.0f, %.0f per trade" % (C["sleeve_usd"], C["position_usd"]))
+    log("memebot v2 start (PAPER): strategies %s, sleeve %.0f each, %.0f per trade" % (
+        ",".join(STRAT), COMMON["sleeve_usd"], COMMON["position_usd"]))
     tick = 0
     while True:
         now = time.time()
         try:
-            scan_new(L, now)
+            scan(L, now)
+            eval_pending(L, now)
             manage(L, now)
             save(L)
             tick += 1
@@ -198,7 +247,7 @@ def main():
                 summary(L)
         except Exception as e:
             log("error: %r" % (e,))
-        time.sleep(C["poll_s"])
+        time.sleep(COMMON["poll_s"])
 
 
 if __name__ == "__main__":

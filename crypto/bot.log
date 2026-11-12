@@ -3,3 +3,13 @@
 09:14:53 skip JOE            liq 36 < 15000
 09:15:03 memebot start (PAPER). sleeve 1000, 50 per trade
 09:15:03 skip JOE            liq 36 < 3000
+09:16:04 BUY  MAXGTA         fill 3.6729976e-05  fdv 35652 liq 14100 buyers5 38  (EHCiga)
+09:17:15 BUY  Ejaw           fill 0.053853032  fdv 51719 liq 97015 buyers5 42  (3u6FsJ)
+09:18:16 BUY  牛逼猫            fill 1.741266e-05  fdv 16905 liq 33377 buyers5 38  (2Tgmt1)
+09:18:16 BUY  Shiqi          fill 0.00061300514  fdv 591687 liq 217412 buyers5 34  (7uRVh6)
+09:18:16 skip FLC            clone name
+09:18:16 skip 牛逼猫            liq 0 < 3000
+09:18:16 BUY  DCAT           fill 3.4140299e-05  fdv 33116 liq 14187 buyers5 160  (2HEVAf)
+09:19:00 memebot v2 start (PAPER): strategies migr,curve, sleeve 1000 each, 50 per trade
+09:19:00 BUY  [migr] 猫仙人            fill 2.0382129e-05 fdv 19788 liq 36370 buyers5 158 (9N1LYS)
+09:20:02 BUY  [migr] Flying Cat     fill 1.9336569e-05 fdv 18220 liq 33472 buyers5 77 (CBXM9b)

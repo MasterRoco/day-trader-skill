@@ -1,5 +1,8 @@
 {
- "cash": 950.0,
+ "cash": {
+  "migr": 600.0,
+  "curve": 1000.0
+ },
  "open": [
   {
    "addr": "CjdkgxH7wJrC1dsqR1vqpQUEiTzgiH5NBCAtWFJRLCw6",
@@ -8,7 +11,80 @@
    "qty": 82693.45660547249,
    "t": 1794474832.2742665,
    "cost": 50.0,
-   "high": 0.0005870318077521967
+   "high": 0.0005870318077521967,
+   "strat": "migr"
+  },
+  {
+   "addr": "EHCiganUZGEDET1gvynvn4xyqhEioVBNVhMrbzQoUAHD",
+   "name": "MAXGTA",
+   "entry": 3.6729975535264e-05,
+   "qty": 1361285.9598012967,
+   "t": 1794474964.381802,
+   "cost": 50.0,
+   "high": 3.814627211029614e-05,
+   "strat": "migr"
+  },
+  {
+   "addr": "3u6FsJhoGaymuTuLfHMYWTYWkpfHo4KxZVjcWaFvJ9oG",
+   "name": "Ejaw",
+   "entry": 0.05385303188047854,
+   "qty": 928.4528327201714,
+   "t": 1794475025.3087127,
+   "cost": 50.0,
+   "high": 0.06470566289078579,
+   "strat": "migr"
+  },
+  {
+   "addr": "2Tgmt11fpRHPUT3Vgt6S1c5j4CbMmut4WDhrQfsH4brZ",
+   "name": "\u725b\u903c\u732b",
+   "entry": 1.7412660059650182e-05,
+   "qty": 2871473.9636974507,
+   "t": 1794475096.4645853,
+   "cost": 50.0,
+   "high": 1.914268696541528e-05,
+   "strat": "migr"
+  },
+  {
+   "addr": "7uRVh6tYX8WBGt9JdNf3hLwDnrjyaG35pvqQJA4cEnCY",
+   "name": "Shiqi",
+   "entry": 0.0006130051400925794,
+   "qty": 81565.38457809461,
+   "t": 1794475096.4645853,
+   "cost": 50.0,
+   "high": 0.0005957904836628713,
+   "strat": "migr"
+  },
+  {
+   "addr": "2HEVAfLL6cEYhzy8ewNCRnc7JxvprqZ5CUNxQ9NYRSaF",
+   "name": "DCAT",
+   "entry": 3.414029894389593e-05,
+   "qty": 1464544.8794155824,
+   "t": 1794475096.4645853,
+   "cost": 50.0,
+   "high": 3.46172470623905e-05,
+   "strat": "migr"
+  },
+  {
+   "strat": "migr",
+   "addr": "9N1LYSpsx4FyUMGKcyjZQctMfamMP7arBHWfc5rrMPKo",
+   "name": "\u732b\u4ed9\u4eba",
+   "entry": 2.0382128667520207e-05,
+   "qty": 2453129.4456833224,
+   "t": 1794475140.2155533,
+   "cost": 50.0,
+   "high": 2.3733830967443832e-05,
+   "fdv0": 19788.47443
+  },
+  {
+   "strat": "migr",
+   "addr": "CBXM9bZGjfV94AX9oMhCGaDjzsXsuQcX7KF2VwqKbHRb",
+   "name": "Flying Cat",
+   "entry": 1.9336568836824275e-05,
+   "qty": 2585774.1578630405,
+   "t": 1794475201.397214,
+   "cost": 50.0,
+   "high": 2.092084627112466e-05,
+   "fdv0": 18220.15484
   }
  ],
  "closed": [],
@@ -21,7 +97,8 @@
    "fdv": 589818.7078,
    "buyers5": 106,
    "age_min": 2.1,
-   "picked": true
+   "picked": true,
+   "strat": "migr"
   },
   "54kne72UPGiAZa5n33FALna3Sc7EDWy4wPA21LgjvPnP": {
    "name": "JOE",
@@ -33,10 +110,394 @@
    "age_min": 1.6,
    "picked": false,
    "skip": "liq 36 < 3000",
-   "max": 3.398764755709966e-09
+   "max": 3.398764755709966e-09,
+   "strat": "migr"
+  },
+  "EHCiganUZGEDET1gvynvn4xyqhEioVBNVhMrbzQoUAHD": {
+   "name": "MAXGTA",
+   "t": 1794474964.381802,
+   "price0": 3.5660170422586403e-05,
+   "liq": 14100.0014,
+   "fdv": 35652.12501,
+   "buyers5": 38,
+   "age_min": 1.8,
+   "picked": true,
+   "strat": "migr"
+  },
+  "3u6FsJhoGaymuTuLfHMYWTYWkpfHo4KxZVjcWaFvJ9oG": {
+   "name": "Ejaw",
+   "t": 1794475025.3087127,
+   "price0": 0.052284496971338384,
+   "liq": 97014.7667,
+   "fdv": 51719.23975,
+   "buyers5": 42,
+   "age_min": 1.2,
+   "picked": true,
+   "strat": "migr"
+  },
+  "2Tgmt11fpRHPUT3Vgt6S1c5j4CbMmut4WDhrQfsH4brZ": {
+   "name": "\u725b\u903c\u732b",
+   "t": 1794475096.4645853,
+   "price0": 1.6905495203543866e-05,
+   "liq": 33376.7064,
+   "fdv": 16905.4952,
+   "buyers5": 38,
+   "age_min": 1.3,
+   "picked": true,
+   "strat": "migr"
+  },
+  "7uRVh6tYX8WBGt9JdNf3hLwDnrjyaG35pvqQJA4cEnCY": {
+   "name": "Shiqi",
+   "t": 1794475096.4645853,
+   "price0": 0.0005951506214491062,
+   "liq": 217411.754,
+   "fdv": 591686.8834,
+   "buyers5": 34,
+   "age_min": 1.4,
+   "picked": true,
+   "strat": "migr"
+  },
+  "kYLkmQSJkyKvZmg5WxL2LvCR2eSLCUioMUeWRkJbYgt": {
+   "name": "FLC",
+   "t": 1794475096.4645853,
+   "price0": 8.507420898458388e-06,
+   "liq": 15045.5211,
+   "fdv": 8507.420898,
+   "buyers5": 77,
+   "age_min": 1.6,
+   "picked": false,
+   "skip": "clone name",
+   "max": 1.3886694896917922e-05,
+   "strat": "migr"
+  },
+  "8iZjguyRorAcZHMGDDPScXXGhtJp3dEgWwiJYXQ7N7rk": {
+   "name": "\u725b\u903c\u732b",
+   "t": 1794475096.4645853,
+   "price0": 1.2934125566135845e-05,
+   "liq": 0.0004214445881,
+   "fdv": 12934.12557,
+   "buyers5": 112,
+   "age_min": 2.3,
+   "picked": false,
+   "skip": "liq 0 < 3000",
+   "max": 1.2934125566135845e-05,
+   "strat": "migr"
+  },
+  "2HEVAfLL6cEYhzy8ewNCRnc7JxvprqZ5CUNxQ9NYRSaF": {
+   "name": "DCAT",
+   "t": 1794475096.4645853,
+   "price0": 3.314592130475333e-05,
+   "liq": 14187.2384,
+   "fdv": 33115.94413,
+   "buyers5": 160,
+   "age_min": 2.4,
+   "picked": true,
+   "strat": "migr"
+  },
+  "9N1LYSpsx4FyUMGKcyjZQctMfamMP7arBHWfc5rrMPKo": {
+   "strat": "migr",
+   "name": "\u732b\u4ed9\u4eba",
+   "t": 1794475140.2155533,
+   "price0": 1.9788474434485636e-05,
+   "liq": 36369.8953,
+   "fdv": 19788.47443,
+   "buyers5": 158,
+   "age_min": 3.5,
+   "picked": true
+  },
+  "3eHn8Gcjq8Do1KNqRJmA3HKL26TjFZz1JBNGLgJgWWws": {
+   "strat": "migr",
+   "name": "Max",
+   "t": 1794475201.397214,
+   "price0": 3.606091551773742e-05,
+   "liq": 7041.08679387323,
+   "fdv": 35909.25635,
+   "buyers5": 2,
+   "age_min": 2.7,
+   "picked": false,
+   "skip": "buyers 2",
+   "max": 3.717222105354195e-05
+  },
+  "EAnd9CFW7Btj3rFmLF3imnaQkS5TyVEGfoN3aiqABrst": {
+   "strat": "migr",
+   "name": "57651",
+   "t": 1794475201.397214,
+   "price0": 175.43851666130587,
+   "liq": 1.03493109798679,
+   "fdv": 10114205.9240406,
+   "buyers5": 1,
+   "age_min": 2.2,
+   "picked": false,
+   "skip": "liq 1",
+   "max": 175.43851666130587
+  },
+  "FM8W8KJhJeteDwudbCJj8AUDFkSzLTQ6H2oAWQPGQ2Go": {
+   "strat": "migr",
+   "name": "FLC",
+   "t": 1794475201.397214,
+   "price0": 7.140058502046029e-05,
+   "liq": 28092.0271,
+   "fdv": 71230.2559899017,
+   "buyers5": 87,
+   "age_min": 2.4,
+   "picked": false,
+   "skip": "clone name",
+   "max": 7.178459692538121e-05
+  },
+  "CBXM9bZGjfV94AX9oMhCGaDjzsXsuQcX7KF2VwqKbHRb": {
+   "strat": "migr",
+   "name": "Flying Cat",
+   "t": 1794475201.397214,
+   "price0": 1.8773367802742013e-05,
+   "liq": 33471.9099,
+   "fdv": 18220.15484,
+   "buyers5": 77,
+   "age_min": 2.4,
+   "picked": true
   }
  },
  "names": {
-  "FLC": 1794474832.2742665
+  "FLC": 1794474832.2742665,
+  "MAXGTA": 1794474964.381802,
+  "Ejaw": 1794475025.3087127,
+  "\u725b\u903c\u732b": 1794475096.4645853,
+  "Shiqi": 1794475096.4645853,
+  "DCAT": 1794475096.4645853,
+  "\u732b\u4ed9\u4eba": 1794475140.2155533,
+  "Flying Cat": 1794475201.397214
+ },
+ "pending": {
+  "6DNESZRz5FwmgGciCn4vm2PxPhZuVZS6SJwzwf1ooidh": {
+   "t": 1794475140.2155533,
+   "created": "2026-11-12T09:17:09Z"
+  },
+  "74kRZ6fHdYAeUrfPWVmbHDTyqgMvwvnKqYdADb9mufni": {
+   "t": 1794475140.2155533,
+   "created": "2026-11-12T09:17:02Z"
+  },
+  "GpUmeG1QyxgceMQiW7UYaxvFeBVEk2N4hAcJPmNFBxXm": {
+   "t": 1794475140.2155533,
+   "created": "2026-11-12T09:17:01Z"
+  },
+  "dNgh4FaZx86mcgabCEbqGb2rjrk69LG3hbwNic9RHAC": {
+   "t": 1794475140.2155533,
+   "created": "2026-11-12T09:17:00Z"
+  },
+  "4TBpjkKt5ic8WoWdzeBn67yMi9A6rng21Tbe27j7ZQfZ": {
+   "t": 1794475140.2155533,
+   "created": "2026-11-12T09:16:59Z"
+  },
+  "Bs1gDykkuGbSRamA8diotmaYVrNibg8EttHDJRURWpvM": {
+   "t": 1794475140.2155533,
+   "created": "2026-11-12T09:16:55Z"
+  },
+  "DwKgSYAtVZT5Bo6tcLPaeCpGJGRfuzb5NGkT8kfs4JEn": {
+   "t": 1794475140.2155533,
+   "created": "2026-11-12T09:16:53Z"
+  },
+  "BWzSGNo5Kj8yrm6FwwyceF4u9g8F9xXheYA8pNmVPKGL": {
+   "t": 1794475140.2155533,
+   "created": "2026-11-12T09:16:51Z"
+  },
+  "7srWCxtxX3suUdz6JGE4DTxxKBAs2aCh1TkJjxvGQtZn": {
+   "t": 1794475140.2155533,
+   "created": "2026-11-12T09:16:42Z"
+  },
+  "22EwdQKHxXXtzvgomCQ1zuSks9xwErGgudREhPC7rZo6": {
+   "t": 1794475140.2155533,
+   "created": "2026-11-12T09:16:42Z"
+  },
+  "7x5VP3roy1um5yu3KZRwXknncYEsynvVRhNr78RkSYPC": {
+   "t": 1794475140.2155533,
+   "created": "2026-11-12T09:16:39Z"
+  },
+  "9VzHdW7kBMoSUGJk9XekxMek9ajY1RGgz33VQ9cw2Jig": {
+   "t": 1794475140.2155533,
+   "created": "2026-11-12T09:16:33Z"
+  },
+  "GwAX4w5F4UFGKaHAnc3Xh78qFMZqErNpW2pyEwEUUKyw": {
+   "t": 1794475140.2155533,
+   "created": "2026-11-12T09:16:29Z"
+  },
+  "Cob38s2DX3PepxTn9HNqiVZvN2CG6Z9e8W2jjs6LFFM": {
+   "t": 1794475140.2155533,
+   "created": "2026-11-12T09:16:25Z"
+  },
+  "CaZLDSe2hreZ95WfbHNN1qSDwE8NSZMboQ6UAvrAuLGh": {
+   "t": 1794475140.2155533,
+   "created": "2026-11-12T09:16:23Z"
+  },
+  "ETzninKu8KLXGQRBN1Pq5dzr1bdQ4MZWHr3erEySeBck": {
+   "t": 1794475140.2155533,
+   "created": "2026-11-12T09:16:17Z"
+  },
+  "2n8AAGHeKpdGW8QKSqyGx5fZMWQK7Er3t6EDW3zmSwhM": {
+   "t": 1794475140.2155533,
+   "created": "2026-11-12T09:16:15Z"
+  },
+  "EHxhy7Dv3d8T8aoo9g8Yq48b4E8iWC2WMaEnSgUZqNRR": {
+   "t": 1794475140.2155533,
+   "created": "2026-11-12T09:16:15Z"
+  },
+  "GWhPBL48rtzuKApprQVyLsshsCD5XcLfteZirvKsKVbR": {
+   "t": 1794475140.2155533,
+   "created": "2026-11-12T09:16:13Z"
+  },
+  "9Wm6AaX95HD2L9LymbdbZ7W5pZAPXr1cUdtKVrJpwyWx": {
+   "t": 1794475140.2155533,
+   "created": "2026-11-12T09:16:10Z"
+  },
+  "8nqHmGnrbdbEyizKjSwgSVpnBKbV31RxWYESCQ9kZYsG": {
+   "t": 1794475140.2155533,
+   "created": "2026-11-12T09:16:08Z"
+  },
+  "9QvrpT8Xb788z6BrCFytAZfGwtoTFLyYRBqYpE9r5LXs": {
+   "t": 1794475140.2155533,
+   "created": "2026-11-12T09:16:04Z"
+  },
+  "Dde8p8MY2kZomv43uW12VkSKZNEDBoKmXNH1NPkcTwNE": {
+   "t": 1794475140.2155533,
+   "created": "2026-11-12T09:16:02Z"
+  },
+  "DghAgNSCK6VMiaBzcFSw8kKE9AdtdjssfyUpdikFJMY1": {
+   "t": 1794475140.2155533,
+   "created": "2026-11-12T09:15:58Z"
+  },
+  "46BAjKuLVeG5YuENB17qPuq2YtPB6sLQjr7q4qJQh3WN": {
+   "t": 1794475140.2155533,
+   "created": "2026-11-12T09:15:58Z"
+  },
+  "qv6C1GVq2iomQodeWi2iLHZV9otjxJKLfMUDedbKez3": {
+   "t": 1794475140.2155533,
+   "created": "2026-11-12T09:15:56Z"
+  },
+  "CmUXmxdRiP36Hr9w1Q4EAzHGWX9mykdaYUmfUrTPF4ni": {
+   "t": 1794475140.2155533,
+   "created": "2026-11-12T09:15:56Z"
+  },
+  "AuTqfc69kn1eACyMQ1JDPZ391kkZsCPoqShJsAA2VsG4": {
+   "t": 1794475140.2155533,
+   "created": "2026-11-12T09:15:55Z"
+  },
+  "HND53vqnk1n7zt3TZh5Ve31Sv3Q6XPAWK8ArUTTmpr3y": {
+   "t": 1794475140.2155533,
+   "created": "2026-11-12T09:15:54Z"
+  },
+  "GBx4PLyZALPHyuKuwYqa937iDAJqnpTH3i3oc3S7GACz": {
+   "t": 1794475140.2155533,
+   "created": "2026-11-12T09:15:51Z"
+  },
+  "GsqYEtH5QKxQP3ymbQgcqFQ5avRmf9zay182saXLkeax": {
+   "t": 1794475140.2155533,
+   "created": "2026-11-12T09:15:50Z"
+  },
+  "6F1FDtVi9bsq7HTF5dsQwE852gzkWQeGbo7jM1h2uhDm": {
+   "t": 1794475140.2155533,
+   "created": "2026-11-12T09:15:46Z"
+  },
+  "CQvuWjLeXtgk5Kez1JgaZGXTTRNWd5wRvWp6Qk3Yd4vH": {
+   "t": 1794475140.2155533,
+   "created": "2026-11-12T09:15:43Z"
+  },
+  "C5bqXJJRkULW3dfamKGifYrQvGR4UwpBtCDGSPwyadLB": {
+   "t": 1794475140.2155533,
+   "created": "2026-11-12T09:15:43Z"
+  },
+  "DYxSafhaJRjbT51YWAoBEWeo4LPa5hro5A5PbRnHemHJ": {
+   "t": 1794475140.2155533,
+   "created": "2026-11-12T09:15:41Z"
+  },
+  "2zmVkyb7DvH6pH9DA9DykKCfgzEUFxKEYDLLnqCLzXz5": {
+   "t": 1794475140.2155533,
+   "created": "2026-11-12T09:15:41Z"
+  },
+  "CkaFedc2oHrvjiDY8Ur5dSGpqNUK7UPTVDPa7ZJw1C5L": {
+   "t": 1794475140.2155533,
+   "created": "2026-11-12T09:15:39Z"
+  },
+  "AZzbkfe22AsarSPGhe2kKCsJRRPPbtbx4opA1wVKpXMf": {
+   "t": 1794475140.2155533,
+   "created": "2026-11-12T09:15:33Z"
+  },
+  "Bd6BZ45scVW2BrkrAPFw2q79s4tNJR2PKc4EzjyvV9NE": {
+   "t": 1794475140.2155533,
+   "created": "2026-11-12T09:15:28Z"
+  },
+  "BkevYx5ekdZf7tURn9Xeqpvr4rEMC8m5pigYhDBzhDs6": {
+   "t": 1794475140.2155533,
+   "created": "2026-11-12T09:15:27Z"
+  },
+  "8zTVMsrB1XJbMb2ZpcvvVdpXeMN2d8S7YpKr5iZwjAiM": {
+   "t": 1794475140.2155533,
+   "created": "2026-11-12T09:15:27Z"
+  },
+  "G7zXjE3H8B9PAxCZsonDdaQzKtC24Rop2zp9M647vbiT": {
+   "t": 1794475140.2155533,
+   "created": "2026-11-12T09:15:25Z"
+  },
+  "5tieKrKiPNkDXuDHryvnGgoTirpJcfHssGxdtjps7nsW": {
+   "t": 1794475201.397214,
+   "created": "2026-11-12T09:17:34Z"
+  },
+  "6wSGzc7CXkwPWPq2jDW9t7Bmg33oajWHU3Y1Wjb8YsBq": {
+   "t": 1794475201.397214,
+   "created": "2026-11-12T09:17:22Z"
+  },
+  "9k9mMVLA7vi8nQM5SA9TAhfxRG26zwc1AFxCHzX74CXC": {
+   "t": 1794475201.397214,
+   "created": "2026-11-12T09:17:16Z"
+  },
+  "DdSdW3mhZgjBpE6x4GnJU35tJmQvBevbWFYjAnHU3fcY": {
+   "t": 1794475201.397214,
+   "created": "2026-11-12T09:17:14Z"
+  },
+  "3NHnPneACkVbB5Kp5aj4vUyjJtujy81eHTHpCZcqvRYm": {
+   "t": 1794475201.397214,
+   "created": "2026-11-12T09:17:57Z"
+  },
+  "7oeqe6oiMciwGhAAUB29frWYGrPxoDiTpJ2mH7zUWPLm": {
+   "t": 1794475201.397214,
+   "created": "2026-11-12T09:17:54Z"
+  },
+  "8Zbd4fDz5cVZk9bgSWBzdwYemJBQhHYmKzuwbzwrErMw": {
+   "t": 1794475201.397214,
+   "created": "2026-11-12T09:17:54Z"
+  },
+  "HantnAXhaUW8yYG7P67fhpG3mvL29tJg98C75dmAXCkg": {
+   "t": 1794475201.397214,
+   "created": "2026-11-12T09:17:53Z"
+  },
+  "FNweZWkn6HJYZmGarMAWbJpVyxwV4o4esLTLDmKJkaiM": {
+   "t": 1794475201.397214,
+   "created": "2026-11-12T09:17:41Z"
+  },
+  "ALy6n6dNkF8dYWxvgENqps6v5n4tiqnuUuRWA4oTZtDh": {
+   "t": 1794475201.397214,
+   "created": "2026-11-12T09:17:40Z"
+  },
+  "jStsrazBbVUycbcCQNseFrDTkfyfaTgpeBNsdsKtPK1": {
+   "t": 1794475201.397214,
+   "created": "2026-11-12T09:17:39Z"
+  },
+  "3R165UzbQynKU281rShN3D9tCu7KPbGnt5vXV6bQRXot": {
+   "t": 1794475201.397214,
+   "created": "2026-11-12T09:17:36Z"
+  },
+  "FraMxEgePjW1omKKNYH5dcEgHYNEzCA7FkgxLeTYLTR3": {
+   "t": 1794475201.397214,
+   "created": "2026-11-12T09:17:27Z"
+  },
+  "DGt4Y5UQNEiXGRDssUB3YRamLvwG9XQxYj1nCD4UZKsX": {
+   "t": 1794475201.397214,
+   "created": "2026-11-12T09:17:24Z"
+  },
+  "5HhgCKhP5QrHt3fHsQSAHfBbAgUytNqK9xa2pFuXApgK": {
+   "t": 1794475201.397214,
+   "created": "2026-11-12T09:17:22Z"
+  },
+  "3Bwd8dcbYqNWMZewFFnnM76khpfZNZ2cFoa1g3yLtNmk": {
+   "t": 1794475201.397214,
+   "created": "2026-11-12T09:17:20Z"
+  }
  }
 }
