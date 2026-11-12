@@ -1,22 +1,22 @@
 {
   "created_by": "trader-entry",
-  "symbol": "TSLA",
+  "symbol": "AMZN",
   "setup": "orb",
   "side": "buy",
-  "date": "2026-11-11",
+  "date": "2026-11-12",
   "status": "triggered",
-  "time": "10:15 AM",
-  "bar_start": "10:10",
-  "bar_index": 8,
-  "price": 393.08,
-  "level": 392.67,
+  "time": "9:55 AM",
+  "bar_start": "09:50",
+  "bar_index": 4,
+  "price": 273.26,
+  "level": 272.48,
   "interval": "5m",
   "opening_range": {
-    "high": 392.67,
-    "low": 386.35,
+    "high": 272.48,
+    "low": 267.83,
     "minutes": 15
   },
   "source": "yahoo",
-  "checked_at": "2026-11-11T15:17:47Z",
-  "reason": "the 10:10 bar closed above the range high"
+  "checked_at": "2026-11-12T14:59:03Z",
+  "reason": "the 9:50 bar closed above the range high"
 }
